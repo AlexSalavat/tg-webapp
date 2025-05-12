@@ -29,9 +29,24 @@ const ProductList = ({ categoryId, onBack }) => {
           gap: '12px'
         }}
       >
-        {filtered.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {filtered.length > 0 ? (
+          filtered.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        ) : (
+          <div
+            style={{
+              gridColumn: '1 / -1',
+              textAlign: 'center',
+              padding: '40px 10px',
+              color: '#aaa',
+              fontSize: '14px'
+            }}
+          >
+            🔧 Здесь пока пусто... <br />
+            Скоро появятся крутые новинки. Следи за обновлениями 💫
+          </div>
+        )}
       </div>
     </div>
   );
