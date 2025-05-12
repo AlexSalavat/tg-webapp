@@ -2,6 +2,10 @@ import React from "react";
 import { categories } from "../data/categories";
 
 const CategoryList = ({ setSelectedCategoryId }) => {
+  if (!Array.isArray(categories)) {
+    return <div className="text-red-500">Ошибка загрузки категорий</div>;
+  }
+
   return (
     <div className="p-4 font-sans bg-[#1f1f1f] min-h-screen">
       <h2 className="text-xl font-bold text-center mb-4 text-white">Категории</h2>
