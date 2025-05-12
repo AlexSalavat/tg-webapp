@@ -1,27 +1,31 @@
-import React, { useState } from "react";
-import CategoryList from "./CategoryList";
-import ProductList from "./ProductList";
-import Cart from "./Cart";
-import CartButton from "./CartButton";
+import React from 'react';
 
-export default function App() {
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [view, setView] = useState("catalog");
+const categories = [
+  'Ботулинотоксины',
+  'Филлеры',
+  'Биоревитализация',
+  'Мезотерапия',
+  'Липолитики',
+  'Пептиды и концентраты',
+  'Аппараты и расходники',
+  'Наборы и комплекты',
+  'Мезонити',
+  'Уход после процедуры'
+];
 
+const App = () => {
   return (
-    <div className="p-4">
-      {view === "cart" ? (
-        <Cart />
-      ) : selectedCategoryId ? (
-        <ProductList
-          categoryId={selectedCategoryId}
-          goBack={() => setSelectedCategoryId(null)}
-        />
-      ) : (
-        <CategoryList setSelectedCategoryId={setSelectedCategoryId} />
-      )}
-
-      <CartButton onClick={() => setView(view === "cart" ? "catalog" : "cart")} />
+    <div style={{ padding: '20px', background: '#111', color: 'white' }}>
+      <h2>Категории</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+        {categories.map((cat, index) => (
+          <div key={index} style={{ background: '#222', padding: '10px', borderRadius: '10px' }}>
+            {cat}
+          </div>
+        ))}
+      </div>
     </div>
   );
-}
+};
+
+export default App;
