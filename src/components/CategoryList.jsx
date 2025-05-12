@@ -1,34 +1,41 @@
-import React from "react";
-import { categories } from "../data/categories";
+import React from 'react';
+import { products } from '../data/products';
+import ProductCard from './ProductCard';
 
-const CategoryList = ({ setSelectedCategoryId }) => {
-  if (!Array.isArray(categories)) {
-    return <div className="text-red-500">Ошибка загрузки категорий</div>;
-  }
+const ProductList = ({ categoryId, onBack }) => {
+  const filtered = products.filter(p => p.categoryId === categoryId);
 
   return (
-    <div className="p-4 font-sans bg-[#1f1f1f] min-h-screen">
-      <h2 className="text-xl font-bold text-center mb-4 text-white">Категории</h2>
-      <div className="grid grid-cols-2 gap-3">
-        {categories.map((category) => (
-          <div
-            key={category.id}
-            onClick={() => setSelectedCategoryId(category.id)}
-            className="rounded-xl overflow-hidden relative h-28 bg-gray-800 cursor-pointer shadow-md"
-          >
-            <img
-              src={category.image}
-              alt={category.name}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent text-white text-sm p-2">
-              {category.name}
-            </div>
-          </div>
+    <div style={{ padding: '20px', background: '#111', color: 'white' }}>
+      <button
+        onClick={onBack}
+        style={{
+          marginBottom: '20px',
+          padding: '8px 16px',
+          backgroundColor: '#444',
+          color: 'white',
+          border: 'none',
+          borderRadius: '8px',
+          cursor: 'pointer'
+        }}
+      >
+        ← Назад
+      </button>
+      <h2 style={{ marginBottom: '10px' }}>Товары</h2>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+          gap: '12px',
+          justifyContent: 'center'
+        }}
+      >
+        {filtered.map(product => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </div>
   );
 };
 
-export default CategoryList;
+export default ProductList;

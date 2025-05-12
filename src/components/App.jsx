@@ -1,50 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ProductList from './ProductList';
 
 const categories = [
-  { name: 'Ботулинотоксины', image: '/images/botox.jpg' },
-  { name: 'Филлеры', image: '/images/fillers.jpg' },
-  { name: 'Биоревитализация', image: '/images/biorevital.jpg' },
-  { name: 'Мезотерапия', image: '/images/meso.jpg' },
-  { name: 'Липолитики', image: '/images/lipolytics.jpg' },
-  { name: 'Пептиды и концентраты', image: '/images/peptides.jpg' },
-  { name: 'Аппараты и расходники', image: '/images/tools.jpg' },
-  { name: 'Наборы и комплекты', image: '/images/sets.jpg' },
-  { name: 'Мезонити', image: '/images/threads.jpg' },
-  { name: 'Уход после процедуры', image: '/images/care.jpg' },
+  { id: 'botox', name: 'Ботулинотоксины', image: '/images/botox.jpg' },
+  { id: 'fillers', name: 'Филлеры', image: '/images/fillers.jpg' },
+  { id: 'biorevital', name: 'Биоревитализация', image: '/images/biorevital.jpg' },
+  { id: 'meso', name: 'Мезотерапия', image: '/images/meso.jpg' },
+  { id: 'lipolytics', name: 'Липолитики', image: '/images/lipolytics.jpg' },
+  { id: 'peptides', name: 'Пептиды и концентраты', image: '/images/peptides.jpg' },
+  { id: 'devices', name: 'Аппараты и расходники', image: '/images/tools.jpg' },
+  { id: 'sets', name: 'Наборы и комплекты', image: '/images/sets.jpg' },
+  { id: 'threads', name: 'Мезонити', image: '/images/threads.jpg' },
+  { id: 'care', name: 'Уход после процедуры', image: '/images/care.jpg' }
 ];
 
 const App = () => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const handleBack = () => setSelectedCategory(null);
+
+  if (selectedCategory) {
+    return <ProductList categoryId={selectedCategory} onBack={handleBack} />;
+  }
+
   return (
-    <div style={{ padding: '20px', background: '#111', color: 'white' }}>
-      <h2 style={{ marginBottom: '20px' }}>Категории</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-        {categories.map((cat, index) => (
+    <div style={{ padding: '16px', background: '#111', color: 'white', minHeight: '100vh' }}>
+      <h2 style={{ marginBottom: '16px' }}>Категории</h2>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '12px'
+        }}
+      >
+        {categories.map((cat) => (
           <div
-            key={index}
+            key={cat.id}
+            onClick={() => setSelectedCategory(cat.id)}
             style={{
               backgroundImage: `url(${cat.image})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
-              borderRadius: '12px',
-              padding: '60px 10px 10px 10px',
-              color: 'white',
-              fontWeight: 'bold',
-              position: 'relative',
+              borderRadius: '16px',
               height: '120px',
-              boxShadow: '0 0 10px rgba(0,0,0,0.3)'
+              position: 'relative',
+              cursor: 'pointer',
+              overflow: 'hidden',
+              boxShadow: '0 0 8px rgba(0,0,0,0.4)'
             }}
           >
             <div
               style={{
                 position: 'absolute',
-                bottom: '10px',
-                left: '10px',
-                right: '10px',
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                padding: '5px 8px',
-                borderRadius: '8px',
+                bottom: 0,
+                width: '100%',
+                background: 'rgba(0, 0, 0, 0.6)',
+                color: 'white',
                 textAlign: 'center',
-                fontSize: '14px'
+                padding: '8px',
+                fontSize: '13px',
+                fontWeight: 'bold'
               }}
             >
               {cat.name}
