@@ -1,4 +1,4 @@
-// ✅ CartPage.jsx — фикс: кнопка "Оформить заказ" с мятным цветом
+// ✅ CartPage.jsx — с добавленным sendData и alert прямо в кнопку оформления
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/AppContext';
 
@@ -24,7 +24,7 @@ const CartPage = ({ onBack, onConfirm }) => {
       <h2 style={{ marginBottom: '16px' }}>Корзина</h2>
 
       {cart.length === 0 ? (
-        <p>🛒 Ваша корзина пуста</p>
+        <p>💼 Ваша корзина пуста</p>
       ) : (
         <>
           {cart.map(item => (
@@ -53,12 +53,23 @@ const CartPage = ({ onBack, onConfirm }) => {
 
           <button
             onClick={() => {
+              try {
+                alert("\ud83d\udce6 Отправка заказа: " + JSON.stringify(cart));
+                if (window?.Telegram?.WebApp?.sendData) {
+                  window.Telegram.WebApp.sendData(JSON.stringify({ items: cart }));
+                } else {
+                  alert("[WEBAPP] sendData НЕ доступен");
+                }
+              } catch (e) {
+                alert("[WEBAPP] Ошибка при вызове sendData: " + e);
+              }
+
               if (onConfirm) onConfirm();
             }}
             style={{
               marginTop: '16px',
               padding: '12px',
-              backgroundColor: '#b2f2bb', // мятный
+              backgroundColor: '#b2f2bb',
               color: 'black',
               border: 'none',
               borderRadius: '8px',
@@ -66,7 +77,7 @@ const CartPage = ({ onBack, onConfirm }) => {
               fontWeight: 'bold'
             }}
           >
-            🛍 Оформить заказ
+            🏍 ️ Оформить заказ
           </button>
         </>
       )}
