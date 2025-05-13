@@ -1,41 +1,28 @@
-// ✅ ConfirmPage.jsx — отправка заказа в Telegram + сообщение
+// ✅ ConfirmPage.jsx — безопасный запуск с WebApp API и новым текстом
 import React, { useEffect } from 'react';
-import { useCart } from '../context/AppContext';
 
 const ConfirmPage = ({ onBack }) => {
-  const { cart, clearCart } = useCart();
-
   useEffect(() => {
-    const tg = window.Telegram.WebApp;
-
-    const items = cart.map(item => ({
-      name: item.name,
-      price: item.price,
-      quantity: item.quantity
-    }));
-
-    tg.sendData(JSON.stringify({ items }));
-    clearCart();
-    tg.close();
+    try {
+      if (window?.Telegram?.WebApp?.close) {
+        window.Telegram.WebApp.close();
+      }
+    } catch (e) {
+      console.warn('WebApp API недоступен:', e);
+    }
   }, []);
 
   return (
-    <div style={{ padding: '16px', background: '#111', color: 'white', minHeight: '100vh' }}>
-      <h2>🎁 Заказ собирается!</h2>
-      <p style={{ marginTop: '12px' }}>Мы уже начали комплектовать ваш заказ. Наш менеджер свяжется с вами в Telegram в ближайшее время 💬</p>
+    <div style={{ padding: '24px', background: '#111', color: 'white', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <h2 style={{ marginBottom: '12px', textAlign: 'center' }}>🛍 Заказ принят!</h2>
+      <p style={{ textAlign: 'center', fontSize: '15px', color: '#ccc' }}>
+        Ваш заказ уже собирается. Мы свяжемся с вами в ближайшее время!
+      </p>
       <button
         onClick={onBack}
-        style={{
-          marginTop: '24px',
-          padding: '10px 20px',
-          background: '#f4c2c2',
-          border: 'none',
-          borderRadius: '8px',
-          cursor: 'pointer',
-          fontWeight: 'bold'
-        }}
+        style={{ marginTop: '24px', padding: '10px 20px', backgroundColor: '#444', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
       >
-        ← Вернуться в магазин
+        ← Вернуться
       </button>
     </div>
   );
