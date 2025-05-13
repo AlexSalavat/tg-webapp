@@ -1,4 +1,4 @@
-// ✅ CartPage.jsx — фикс: кнопка onConfirm работает
+// ✅ CartPage.jsx — фикс: кнопка "Оформить заказ" с мятным цветом
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/AppContext';
 
@@ -58,7 +58,7 @@ const CartPage = ({ onBack, onConfirm }) => {
             style={{
               marginTop: '16px',
               padding: '12px',
-              backgroundColor: '#f4c2c2',
+              backgroundColor: '#b2f2bb', // мятный
               color: 'black',
               border: 'none',
               borderRadius: '8px',
@@ -66,7 +66,7 @@ const CartPage = ({ onBack, onConfirm }) => {
               fontWeight: 'bold'
             }}
           >
-            🛍 Подтвердить заказ
+            🛍 Оформить заказ
           </button>
         </>
       )}
