@@ -1,4 +1,3 @@
-# ✅ store_bot.py — минимальный, чистый, готов к запуску
 import asyncio
 import json
 import datetime
@@ -50,29 +49,40 @@ async def send_post(message: types.Message):
     )
     await message.answer("📢 Пост отправлен в канал.")
 
-
 # ✅ Обработка заказа из WebApp
 @dp.message(F.web_app_data)
 async def webapp_handler(message: types.Message):
     try:
+        print("[DEBUG] Получены данные из WebApp")
         data = json.loads(message.web_app_data.data)
         items = data.get("items", [])
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+        print(f"[DEBUG] Элементы заказа: {items}")
+
         for item in items:
-            sheet.append_row([
+            print(f"[DEBUG] Обработка item: {item}")
+            name = item.get("name")
+            quantity = item.get("quantity")
+            price = item.get("price")
+            total = quantity * price
+
+            row = [
                 now,
                 message.from_user.full_name,
                 message.from_user.id,
-                item["name"],
-                item["quantity"],
-                item["price"],
-                item["quantity"] * item["price"]
-            ])
+                name,
+                quantity,
+                price,
+                total
+            ]
+
+            print(f"[DEBUG] Добавление строки в таблицу: {row}")
+            sheet.append_row(row)
 
         await message.answer("✅ Заказ оформлен и отправлен! Благодарим 🙌")
     except Exception as e:
-        print(f"[Ошибка WebApp] {e}")
+        print(f"[ОШИБКА] {e}")
         await message.answer("❌ Ошибка при оформлении. Попробуйте позже.")
 
 # 🚀 Запуск
