@@ -1,32 +1,31 @@
-// ✅ AppContext.jsx — глобальный контекст корзины с useReducer
+// ✅ AppContext.jsx (в src/context/AppContext.jsx)
 import { createContext, useContext, useReducer } from 'react';
 
-export const AppContext = createContext();
+const AppContext = createContext();
 
 const initialState = [];
 
 function reducer(state, action) {
   switch (action.type) {
     case 'ADD': {
-      const existing = state.find(i => i.id === action.payload.id);
-      if (existing) {
-        return state.map(i =>
-          i.id === action.payload.id
-            ? { ...i, quantity: i.quantity + action.payload.quantity }
-            : i
+      const exists = state.find(item => item.id === action.payload.id);
+      if (exists) {
+        return state.map(item =>
+          item.id === action.payload.id
+            ? { ...item, quantity: item.quantity + action.payload.quantity }
+            : item
         );
-      } else {
-        return [...state, { ...action.payload }];
       }
+      return [...state, { ...action.payload }];
     }
     case 'UPDATE':
-      return state.map(i =>
-        i.id === action.payload.id
-          ? { ...i, quantity: action.payload.quantity }
-          : i
+      return state.map(item =>
+        item.id === action.payload.id
+          ? { ...item, quantity: action.payload.quantity }
+          : item
       );
     case 'REMOVE':
-      return state.filter(i => i.id !== action.payload);
+      return state.filter(item => item.id !== action.payload);
     case 'CLEAR':
       return [];
     default:
@@ -37,8 +36,8 @@ function reducer(state, action) {
 export const AppProvider = ({ children }) => {
   const [cart, dispatch] = useReducer(reducer, initialState);
 
-  const addToCart = (item, quantity) =>
-    dispatch({ type: 'ADD', payload: { ...item, quantity } });
+  const addToCart = (product, quantity) =>
+    dispatch({ type: 'ADD', payload: { ...product, quantity } });
 
   const updateQuantity = (id, quantity) =>
     dispatch({ type: 'UPDATE', payload: { id, quantity } });

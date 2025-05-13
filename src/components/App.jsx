@@ -1,8 +1,9 @@
-// ✅ App.jsx — основной экран, переключение между категориями, товарами и корзиной
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProductList from './ProductList';
 import CartPage from './CartPage';
 import CartButton from './CartButton';
+import ConfirmPage from './ConfirmPage';
+import { useCart } from '../context/AppContext';
 
 const categories = [
   { id: 'botox', name: 'Ботулинотоксины', image: '/images/botox.jpg' },
@@ -20,55 +21,82 @@ const categories = [
 const App = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showCart, setShowCart] = useState(false);
+  const [confirmOrder, setConfirmOrder] = useState(false);
+  const { cart } = useCart();
+
+  useEffect(() => {}, [cart]);
+
+  const handleBack = () => setSelectedCategory(null);
+  const handleOpenCart = () => setShowCart(true);
+  const handleCloseCart = () => setShowCart(false);
+  const handleConfirmOrder = () => {
+    setShowCart(false);
+    setConfirmOrder(true);
+  };
+
+  if (confirmOrder) {
+    return <ConfirmPage onBack={() => setConfirmOrder(false)} />;
+  }
+
+  if (showCart) {
+    return <CartPage onBack={handleCloseCart} onConfirm={handleConfirmOrder} />;
+  }
+
+  if (selectedCategory) {
+    return (
+      <>
+        <ProductList categoryId={selectedCategory} onBack={handleBack} />
+        <CartButton onClick={handleOpenCart} />
+      </>
+    );
+  }
 
   return (
     <div style={{ padding: '16px', background: '#111', color: 'white', minHeight: '100vh' }}>
-      {showCart ? (
-        <CartPage onBack={() => setShowCart(false)} />
-      ) : selectedCategory ? (
-        <ProductList categoryId={selectedCategory} onBack={() => setSelectedCategory(null)} />
-      ) : (
-        <>
-          <h2 style={{ marginBottom: '16px' }}>Категории</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            {categories.map((cat) => (
-              <div
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                style={{
-                  backgroundImage: `url(${cat.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  borderRadius: '16px',
-                  height: '120px',
-                  position: 'relative',
-                  cursor: 'pointer',
-                  overflow: 'hidden',
-                  boxShadow: '0 0 8px rgba(0,0,0,0.4)'
-                }}
-              >
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    width: '100%',
-                    background: 'rgba(0, 0, 0, 0.6)',
-                    color: 'white',
-                    textAlign: 'center',
-                    padding: '8px',
-                    fontSize: '13px',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  {cat.name}
-                </div>
-              </div>
-            ))}
+      <h2 style={{ marginBottom: '16px' }}>Категории</h2>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '12px'
+        }}
+      >
+        {categories.map((cat) => (
+          <div
+            key={cat.id}
+            onClick={() => setSelectedCategory(cat.id)}
+            style={{
+              backgroundImage: `url(${cat.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              borderRadius: '16px',
+              height: '120px',
+              position: 'relative',
+              cursor: 'pointer',
+              overflow: 'hidden',
+              boxShadow: '0 0 8px rgba(0,0,0,0.4)'
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                width: '100%',
+                background: 'rgba(0, 0, 0, 0.6)',
+                color: 'white',
+                textAlign: 'center',
+                padding: '8px',
+                fontSize: '13px',
+                fontWeight: 'bold'
+              }}
+            >
+              {cat.name}
+            </div>
           </div>
-        </>
-      )}
+        ))}
+      </div>
 
-      <CartButton onClick={() => setShowCart(true)} />
+      <CartButton onClick={handleOpenCart} />
     </div>
   );
 };

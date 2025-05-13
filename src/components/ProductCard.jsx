@@ -1,4 +1,4 @@
-// ✅ ProductCard.jsx — карточка товара с кнопкой и количеством
+// ✅ ProductCard.jsx (в src/components/ProductCard.jsx)
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/AppContext';
 
@@ -59,7 +59,7 @@ const ProductCard = ({ product }) => {
 
   const getButtonColor = () => {
     if (status === 'add') return '#007bff';
-    if (status === 'update') return '#17a2b8';
+    if (status === 'update') return '#ffc107';
     if (status === 'saved') return '#28a745';
   };
 
