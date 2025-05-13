@@ -1,8 +1,8 @@
-// ✅ CartPage.jsx — рабочий, отправка в Telegram, стиль + расчёт
+// ✅ CartPage.jsx — фикс: кнопка onConfirm работает
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/AppContext';
 
-const CartPage = ({ onBack }) => {
+const CartPage = ({ onBack, onConfirm }) => {
   const { cart, updateQuantity, removeFromCart } = useCart();
   const [renderKey, setRenderKey] = useState(0);
 
@@ -12,34 +12,11 @@ const CartPage = ({ onBack }) => {
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  const handleConfirm = () => {
-    if (window.Telegram.WebApp) {
-      const payload = JSON.stringify({
-        items: cart.map(item => ({
-          id: item.id,
-          name: item.name,
-          quantity: item.quantity,
-          price: item.price
-        }))
-      });
-      window.Telegram.WebApp.sendData(payload);
-      window.Telegram.WebApp.close();
-    }
-  };
-
   return (
     <div key={renderKey} style={{ padding: '16px', background: '#111', color: 'white', minHeight: '100vh' }}>
       <button
         onClick={onBack}
-        style={{
-          marginBottom: '16px',
-          padding: '8px 16px',
-          backgroundColor: '#444',
-          color: 'white',
-          border: 'none',
-          borderRadius: '8px',
-          cursor: 'pointer'
-        }}
+        style={{ marginBottom: '16px', padding: '8px 16px', backgroundColor: '#444', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
       >
         ← Назад
       </button>
@@ -75,11 +52,13 @@ const CartPage = ({ onBack }) => {
           <div style={{ marginTop: '16px', fontWeight: 'bold' }}>Итого: {total} ₽</div>
 
           <button
-            onClick={handleConfirm}
+            onClick={() => {
+              if (onConfirm) onConfirm();
+            }}
             style={{
               marginTop: '16px',
               padding: '12px',
-              backgroundColor: '#f4c2c2', // Бледно-розовый
+              backgroundColor: '#f4c2c2',
               color: 'black',
               border: 'none',
               borderRadius: '8px',

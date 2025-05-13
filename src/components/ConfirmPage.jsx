@@ -1,32 +1,41 @@
-import React from 'react';
+// ✅ ConfirmPage.jsx — отправка заказа в Telegram + сообщение
+import React, { useEffect } from 'react';
 import { useCart } from '../context/AppContext';
 
-const ConfirmPage = ({ onBack, onSubmit }) => {
-  const { cart } = useCart();
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+const ConfirmPage = ({ onBack }) => {
+  const { cart, clearCart } = useCart();
+
+  useEffect(() => {
+    const tg = window.Telegram.WebApp;
+
+    const items = cart.map(item => ({
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity
+    }));
+
+    tg.sendData(JSON.stringify({ items }));
+    clearCart();
+    tg.close();
+  }, []);
 
   return (
     <div style={{ padding: '16px', background: '#111', color: 'white', minHeight: '100vh' }}>
+      <h2>🎁 Заказ собирается!</h2>
+      <p style={{ marginTop: '12px' }}>Мы уже начали комплектовать ваш заказ. Наш менеджер свяжется с вами в Telegram в ближайшее время 💬</p>
       <button
         onClick={onBack}
-        style={{ marginBottom: '16px', padding: '8px 16px', backgroundColor: '#444', color: 'white', border: 'none', borderRadius: '8px' }}
+        style={{
+          marginTop: '24px',
+          padding: '10px 20px',
+          background: '#f4c2c2',
+          border: 'none',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          fontWeight: 'bold'
+        }}
       >
-        ← Назад
-      </button>
-
-      <h2>Подтверждение заказа</h2>
-      {cart.map(item => (
-        <div key={item.id} style={{ marginTop: '12px' }}>
-          <strong>{item.name}</strong> — {item.quantity} шт. × {item.price} ₽
-        </div>
-      ))}
-      <div style={{ marginTop: '16px', fontWeight: 'bold' }}>Итого: {total} ₽</div>
-
-      <button
-        onClick={onSubmit}
-        style={{ marginTop: '24px', padding: '12px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold' }}
-      >
-        ✅ Отправить заказ
+        ← Вернуться в магазин
       </button>
     </div>
   );
