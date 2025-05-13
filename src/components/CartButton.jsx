@@ -1,21 +1,32 @@
-import React from "react";
-import { useCart } from "../context/CartContext";
+// ✅ CartButton.jsx — иконка корзины с количеством
+import React from 'react';
+import { useCart } from '../context/AppContext';
 
 const CartButton = ({ onClick }) => {
   const { cart } = useCart();
-  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  if (totalItems === 0) return null;
 
   return (
     <button
       onClick={onClick}
-      className="fixed bottom-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg relative"
+      style={{
+        position: 'fixed',
+        top: 12,
+        right: 12,
+        backgroundColor: '#007bff',
+        color: 'white',
+        border: 'none',
+        borderRadius: '999px',
+        padding: '10px 16px',
+        fontSize: '14px',
+        fontWeight: 'bold',
+        zIndex: 999,
+        boxShadow: '0 0 6px rgba(0,0,0,0.3)',
+        cursor: 'pointer'
+      }}
     >
-      🛒
-      {totalCount > 0 && (
-        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
-          {totalCount}
-        </span>
-      )}
+      🛒 {totalItems}
     </button>
   );
 };

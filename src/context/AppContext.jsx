@@ -1,38 +1,55 @@
-import { createContext, useContext, useState } from 'react';
+// ✅ AppContext.jsx — глобальный контекст корзины с useReducer
+import { createContext, useContext, useReducer } from 'react';
 
 export const AppContext = createContext();
 
-export const AppProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+const initialState = [];
 
-  const addToCart = (item, quantity = 1) => {
-    setCart(prev => {
-      const existing = prev.find(p => p.id === item.id);
+function reducer(state, action) {
+  switch (action.type) {
+    case 'ADD': {
+      const existing = state.find(i => i.id === action.payload.id);
       if (existing) {
-        return prev.map(p =>
-          p.id === item.id ? { ...p, quantity: p.quantity + quantity } : p
+        return state.map(i =>
+          i.id === action.payload.id
+            ? { ...i, quantity: i.quantity + action.payload.quantity }
+            : i
         );
+      } else {
+        return [...state, { ...action.payload }];
       }
-      return [...prev, { ...item, quantity }];
-    });
-  };
+    }
+    case 'UPDATE':
+      return state.map(i =>
+        i.id === action.payload.id
+          ? { ...i, quantity: action.payload.quantity }
+          : i
+      );
+    case 'REMOVE':
+      return state.filter(i => i.id !== action.payload);
+    case 'CLEAR':
+      return [];
+    default:
+      return state;
+  }
+}
 
-  const removeFromCart = (id) => {
-    setCart(prev => prev.filter(p => p.id !== id));
-  };
+export const AppProvider = ({ children }) => {
+  const [cart, dispatch] = useReducer(reducer, initialState);
 
-  const updateQuantity = (id, quantity) => {
-    setCart(prev =>
-      prev.map(p => (p.id === id ? { ...p, quantity } : p))
-    );
-  };
+  const addToCart = (item, quantity) =>
+    dispatch({ type: 'ADD', payload: { ...item, quantity } });
 
-  const clearCart = () => setCart([]);
+  const updateQuantity = (id, quantity) =>
+    dispatch({ type: 'UPDATE', payload: { id, quantity } });
+
+  const removeFromCart = (id) =>
+    dispatch({ type: 'REMOVE', payload: id });
+
+  const clearCart = () => dispatch({ type: 'CLEAR' });
 
   return (
-    <AppContext.Provider
-      value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart }}
-    >
+    <AppContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, clearCart }}>
       {children}
     </AppContext.Provider>
   );
