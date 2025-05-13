@@ -40,7 +40,7 @@ async def send_post(message: types.Message):
     markup = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(
             text="🛍 Перейти в Beauty-Маркет",
-            web_app=WebAppInfo(url="https://tg-webapp-gamma.vercel.app")
+            url="https://tg-webapp-gamma.vercel.app"
         )
     ]])
     await bot.send_message(
@@ -49,6 +49,7 @@ async def send_post(message: types.Message):
         reply_markup=markup
     )
     await message.answer("📢 Пост отправлен в канал.")
+
 
 # ✅ Обработка заказа из WebApp
 @dp.message(F.web_app_data)
