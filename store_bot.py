@@ -1,3 +1,4 @@
+# ✅ store_bot.py — стабильная схема: кнопка в канале → WebApp через бота
 import asyncio
 import json
 import datetime
@@ -10,7 +11,7 @@ from aiogram.types import WebAppInfo, InlineKeyboardMarkup, InlineKeyboardButton
 from oauth2client.service_account import ServiceAccountCredentials
 
 # 🔐 Токен бота
-BOT_TOKEN = "7558812308:AAG4PwMjatnbNU6xAaS2qWAbciauFvpbEHU"
+BOT_TOKEN = "7643253940:AAH_57oV_nfbpUUYnBY6QuCBYrj8rVjr1Zg"
 
 # 🔐 Google Sheets
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -22,29 +23,39 @@ sheet = client.open("Заказы KSHOT").sheet1
 bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
 
-# ✅ Кнопка WebApp
+# ✅ Кнопка WebApp в /start
 @dp.message(CommandStart())
 async def start(message: types.Message):
     kb = InlineKeyboardMarkup(
         inline_keyboard=[[InlineKeyboardButton(
-            text="🛍 Beauty-Маркет",
+            text="🛍 Открыть магазин",
             web_app=WebAppInfo(url="https://tg-webapp-gamma.vercel.app")
         )]]
     )
-    await message.answer("Добро пожаловать в <b>KSHOT</b> — открой магазин по кнопке ниже:", reply_markup=kb)
+    await message.answer("Нажми кнопку ниже, чтобы открыть магазин:", reply_markup=kb)
 
-# ✅ Команда: пост в канал
+# ✅ Команда: пост в канал → красивая версия
 @dp.message(F.text.lower() == "пост")
 async def send_post(message: types.Message):
     markup = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(
-            text="🛍 Перейти в Beauty-Маркет",
-            url="https://tg-webapp-gamma.vercel.app"
+            text="🛍 Beauty-Маркет",
+            url="https://t.me/SkinShotMarket_bot?startapp"
         )
     ]])
     await bot.send_message(
         chat_id="@NEUROBIZ_BIZ",
-        text="KSHOT — корейская косметология в Telegram. Удобно. Быстро. 💉\n\nНажми кнопку и заходи в магазин 👇",
+        text=(
+            "<b>Косметология — это про результат. Мы знаем, где его найти.</b>\n\n"
+            "🔹 Прямые поставки корейских инъекционных препаратов для косметологов и салонов.\n"
+            "🔹 В наличии — только проверенные, известные бренды.\n"
+            "🔹 Следим за новинками с доказанным эффектом — добавляем в каталог только лучшее.\n"
+            "🔹 Без лишних наценок: хорошая цена благодаря работе без посредников.\n"
+            "🔹 Мы только начинаем — ассортимент пока компактный, но каждый месяц растёт.\n"
+            "🔹 Находимся в Москве, доставляем по всей России.\n\n"
+            "Если вы цените качество и результат — вам к нам.\n"
+            "👇 <b>Перейти в Beauty-Маркет</b>"
+        ),
         reply_markup=markup
     )
     await message.answer("📢 Пост отправлен в канал.")
@@ -53,36 +64,24 @@ async def send_post(message: types.Message):
 @dp.message(F.web_app_data)
 async def webapp_handler(message: types.Message):
     try:
-        print("[DEBUG] Получены данные из WebApp")
         data = json.loads(message.web_app_data.data)
         items = data.get("items", [])
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        print(f"[DEBUG] Элементы заказа: {items}")
-
         for item in items:
-            print(f"[DEBUG] Обработка item: {item}")
-            name = item.get("name")
-            quantity = item.get("quantity")
-            price = item.get("price")
-            total = quantity * price
-
-            row = [
+            sheet.append_row([
                 now,
                 message.from_user.full_name,
                 message.from_user.id,
-                name,
-                quantity,
-                price,
-                total
-            ]
-
-            print(f"[DEBUG] Добавление строки в таблицу: {row}")
-            sheet.append_row(row)
+                item["name"],
+                item["quantity"],
+                item["price"],
+                item["quantity"] * item["price"]
+            ])
 
         await message.answer("✅ Заказ оформлен и отправлен! Благодарим 🙌")
     except Exception as e:
-        print(f"[ОШИБКА] {e}")
+        print(f"[Ошибка WebApp] {e}")
         await message.answer("❌ Ошибка при оформлении. Попробуйте позже.")
 
 # 🚀 Запуск

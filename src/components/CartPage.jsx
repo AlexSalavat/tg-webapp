@@ -1,4 +1,4 @@
-// ✅ CartPage.jsx — с добавленным sendData и alert прямо в кнопку оформления
+// ✅ CartPage.jsx — фикс: кнопка "Оформить заказ" с жёстким цветом и выравниванием
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/AppContext';
 
@@ -16,7 +16,15 @@ const CartPage = ({ onBack, onConfirm }) => {
     <div key={renderKey} style={{ padding: '16px', background: '#111', color: 'white', minHeight: '100vh' }}>
       <button
         onClick={onBack}
-        style={{ marginBottom: '16px', padding: '8px 16px', backgroundColor: '#444', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+        style={{
+          marginBottom: '16px',
+          padding: '8px 16px',
+          backgroundColor: '#444',
+          color: 'white',
+          border: 'none',
+          borderRadius: '8px',
+          cursor: 'pointer'
+        }}
       >
         ← Назад
       </button>
@@ -24,7 +32,7 @@ const CartPage = ({ onBack, onConfirm }) => {
       <h2 style={{ marginBottom: '16px' }}>Корзина</h2>
 
       {cart.length === 0 ? (
-        <p>💼 Ваша корзина пуста</p>
+        <p>🛒 Ваша корзина пуста</p>
       ) : (
         <>
           {cart.map(item => (
@@ -51,34 +59,26 @@ const CartPage = ({ onBack, onConfirm }) => {
 
           <div style={{ marginTop: '16px', fontWeight: 'bold' }}>Итого: {total} ₽</div>
 
-          <button
-            onClick={() => {
-              try {
-                alert("\ud83d\udce6 Отправка заказа: " + JSON.stringify(cart));
-                if (window?.Telegram?.WebApp?.sendData) {
-                  window.Telegram.WebApp.sendData(JSON.stringify({ items: cart }));
-                } else {
-                  alert("[WEBAPP] sendData НЕ доступен");
-                }
-              } catch (e) {
-                alert("[WEBAPP] Ошибка при вызове sendData: " + e);
-              }
-
-              if (onConfirm) onConfirm();
-            }}
-            style={{
-              marginTop: '16px',
-              padding: '12px',
-              backgroundColor: '#b2f2bb',
-              color: 'black',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontWeight: 'bold'
-            }}
-          >
-            🏍 ️ Оформить заказ
-          </button>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <button
+              onClick={() => {
+                if (onConfirm) onConfirm();
+              }}
+              style={{
+                marginTop: '24px',
+                padding: '14px 28px',
+                backgroundColor: '#00C853', // жёсткий зелёный
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                fontSize: '16px'
+              }}
+            >
+              🛍 Оформить заказ
+            </button>
+          </div>
         </>
       )}
     </div>
