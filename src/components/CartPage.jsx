@@ -76,7 +76,7 @@ const CartPage = ({ onBack, onConfirm }) => {
                 fontSize: '16px'
               }}
             >
-              🛍 Оформить заказ
+              🛍 Оформить заявку
             </button>
           </div>
         </>
