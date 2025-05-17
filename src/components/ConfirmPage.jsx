@@ -1,34 +1,57 @@
-// ✅ ConfirmPage.jsx — WebApp sendData
+// ✅ ConfirmPage.jsx — жёсткая отладка sendData + WebApp API
 import React, { useEffect } from 'react';
 
 const ConfirmPage = ({ onBack }) => {
   useEffect(() => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      console.log("[WebApp] cart:", cart);
+      alert("📦 Попытка отправки заказа...");
 
       if (window?.Telegram?.WebApp?.sendData) {
+        alert("✅ sendData доступен — отправка заказа");
         window.Telegram.WebApp.sendData(JSON.stringify({ items: cart }));
+      } else {
+        alert("⛔ sendData НЕ доступен — не через Telegram WebApp");
       }
 
       if (window?.Telegram?.WebApp?.close) {
         window.Telegram.WebApp.close();
       }
     } catch (e) {
-      console.error("[ConfirmPage] Ошибка sendData:", e);
+      console.error("[ConfirmPage] Ошибка при отправке:", e);
+      alert("❌ Ошибка ConfirmPage: " + e.message);
     }
   }, []);
 
   return (
-    <div style={{ padding: '24px', background: '#111', color: 'white', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-      <h2 style={{ marginBottom: '12px', textAlign: 'center' }}>🛍 Заявка принята!</h2>
+    <div style={{
+      padding: '24px',
+      background: '#111',
+      color: 'white',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}>
+      <h2 style={{ marginBottom: '12px', textAlign: 'center' }}>🛍 Заявка отправлена!</h2>
       <p style={{ textAlign: 'center', fontSize: '15px', color: '#ccc' }}>
-        Мы уже получили ваш заказ и скоро свяжемся 🫶
+        Мы получили вашу заявку и скоро с вами свяжемся 💬
       </p>
       <button
         onClick={onBack}
-        style={{ marginTop: '24px', padding: '10px 20px', backgroundColor: '#444', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+        style={{
+          marginTop: '24px',
+          padding: '10px 20px',
+          backgroundColor: '#444',
+          color: 'white',
+          border: 'none',
+          borderRadius: '8px',
+          cursor: 'pointer'
+        }}
       >
-        ← Назад
+        ← Назад в каталог
       </button>
     </div>
   );
