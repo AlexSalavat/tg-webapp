@@ -24,8 +24,6 @@ const App = () => {
   const [confirmOrder, setConfirmOrder] = useState(false);
   const { cart } = useCart();
 
-  useEffect(() => {}, [cart]);
-
   const handleBack = () => setSelectedCategory(null);
   const handleOpenCart = () => setShowCart(true);
   const handleCloseCart = () => setShowCart(false);

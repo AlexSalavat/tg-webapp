@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 
 const ConfirmPage = ({ onBack }) => {
   useEffect(() => {
-    console.log("ConfirmPage loaded");
-
     if (window?.Telegram?.WebApp) {
       window.Telegram.WebApp.ready();
     }
@@ -11,20 +9,9 @@ const ConfirmPage = ({ onBack }) => {
     const timer = setTimeout(() => {
       try {
         const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        console.log("[WebApp] cart:", cart);
-        alert("📦 Попытка отправки заказа...");
-
-        console.log("Telegram WebApp:", window.Telegram?.WebApp);
-
-        // 👉 Добавлено для отладки платформы
-        console.log("PLATFORM:", window.Telegram?.WebApp?.platform);
-        alert("PLATFORM: " + window.Telegram?.WebApp?.platform);
 
         if (window?.Telegram?.WebApp?.sendData) {
-          alert("✅ sendData доступен — отправка заказа");
           window.Telegram.WebApp.sendData(JSON.stringify({ items: cart }));
-        } else {
-          alert("⛔ sendData НЕ доступен — не через Telegram WebApp");
         }
 
         if (window?.Telegram?.WebApp?.close) {
@@ -32,7 +19,6 @@ const ConfirmPage = ({ onBack }) => {
         }
       } catch (e) {
         console.error("[ConfirmPage] Ошибка при отправке:", e);
-        alert("❌ Ошибка ConfirmPage: " + e.message);
       }
     }, 300);
 

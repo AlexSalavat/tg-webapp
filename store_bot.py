@@ -12,7 +12,7 @@ from aiogram.types import WebAppInfo, ReplyKeyboardMarkup, KeyboardButton
 BOT_TOKEN = "7643253940:AAH_57oV_nfbpUUYnBY6QuCBYrj8rVjr1Zg"
 
 # ✅ SheetDB API URL
-SHEETDB_URL = "https://sheetdb.io/api/v1/puwfh4ykjybvu"  # Заменено на SheetDB
+SHEETDB_URL = "https://sheetdb.io/api/v1/puwfh4ykjybvu"
 
 # 🤖 Инициализация
 bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
@@ -24,18 +24,18 @@ async def start(message: types.Message):
     kb = ReplyKeyboardMarkup(
         keyboard=[[KeyboardButton(
             text="🍭 Открыть магазин",
-            web_app=WebAppInfo(url="https://tg-webapp-gamma.vercel.app")
+            web_app=WebAppInfo(url="https://tg-webapp-obdnwfu6k-alexsalavats-projects.vercel.app")
         )]],
         resize_keyboard=True
     )
     await message.answer("Нажми кнопку ниже, чтобы открыть магазин:", reply_markup=kb)
 
-# ✅ Команда: пост в канал → красивая версия
+# ✅ Команда: пост в канал
 @dp.message(F.text.lower() == "пост")
 async def send_post(message: types.Message):
     markup = types.InlineKeyboardMarkup(inline_keyboard=[[types.InlineKeyboardButton(
         text="🍭 Beauty-Маркет",
-        url="https://t.me/SkinShotMarket_bot?start"
+        url="https://t.me/SkinShotMarket_bot?startapp"
     )]])
     await bot.send_message(
         chat_id="@NEUROBIZ_BIZ",
@@ -54,10 +54,10 @@ async def send_post(message: types.Message):
     )
     await message.answer("📢 Пост отправлен в канал.")
 
-# ✅ Обработка заказа из WebApp
+# ✅ Обработка данных из WebApp
 @dp.message(F.web_app_data)
 async def webapp_handler(message: types.Message):
-    print("web_app_data detected")  # <--- сюда добавлено
+    print("web_app_data detected")
     print(f"Received data: {message.web_app_data.data}")
 
     try:
@@ -85,8 +85,7 @@ async def webapp_handler(message: types.Message):
         print(f"[Ошибка WebApp] {e}")
         await message.answer("❌ Ошибка при оформлении. Попробуйте позже.")
 
-
-# ✅ Отладка
+# ✅ Лог всего остального
 @dp.message()
 async def debug_all(message: types.Message):
     print(f"DEBUG: {message.text}")
