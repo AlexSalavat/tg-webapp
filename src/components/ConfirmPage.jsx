@@ -3,26 +3,29 @@ import React, { useEffect } from 'react';
 
 const ConfirmPage = ({ onBack }) => {
   useEffect(() => {
-    try {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      console.log("[WebApp] cart:", cart);
-      alert("📦 Попытка отправки заказа...");
+  console.log("ConfirmPage loaded");
 
-      if (window?.Telegram?.WebApp?.sendData) {
-        alert("✅ sendData доступен — отправка заказа");
-        window.Telegram.WebApp.sendData(JSON.stringify({ items: cart }));
-      } else {
-        alert("⛔ sendData НЕ доступен — не через Telegram WebApp");
-      }
+  try {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    console.log("[WebApp] cart:", cart);
+    alert("📦 Попытка отправки заказа...");
 
-      if (window?.Telegram?.WebApp?.close) {
-        window.Telegram.WebApp.close();
-      }
-    } catch (e) {
-      console.error("[ConfirmPage] Ошибка при отправке:", e);
-      alert("❌ Ошибка ConfirmPage: " + e.message);
+    if (window?.Telegram?.WebApp?.sendData) {
+      alert("✅ sendData доступен — отправка заказа");
+      window.Telegram.WebApp.sendData(JSON.stringify({ items: cart }));
+    } else {
+      alert("⛔ sendData НЕ доступен — не через Telegram WebApp");
     }
-  }, []);
+
+    if (window?.Telegram?.WebApp?.close) {
+      window.Telegram.WebApp.close();
+    }
+  } catch (e) {
+    console.error("[ConfirmPage] Ошибка при отправке:", e);
+    alert("❌ Ошибка ConfirmPage: " + e.message);
+  }
+}, []);
+
 
   return (
     <div style={{
