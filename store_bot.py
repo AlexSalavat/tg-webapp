@@ -1,23 +1,18 @@
-# ✅ store_bot.py — стабильная схема: кнопка в канале → WebApp через бота
 import asyncio
 import json
 import datetime
-import gspread
+import requests
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import CommandStart
 from aiogram.enums import ParseMode
 from aiogram.client.default import DefaultBotProperties
-from aiogram.types import WebAppInfo, InlineKeyboardMarkup, InlineKeyboardButton
-from oauth2client.service_account import ServiceAccountCredentials
+from aiogram.types import WebAppInfo, ReplyKeyboardMarkup, KeyboardButton
 
 # 🔐 Токен бота
 BOT_TOKEN = "7643253940:AAH_57oV_nfbpUUYnBY6QuCBYrj8rVjr1Zg"
 
-# 🔐 Google Sheets
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("google_key.json", scope)
-client = gspread.authorize(creds)
-sheet = client.open("Заказы KSHOT").sheet1
+# ✅ SheetDB API URL
+SHEETDB_URL = "https://sheetdb.io/api/v1/puwfh4ykjybvu"  # Заменено на SheetDB
 
 # 🤖 Инициализация
 bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
@@ -26,23 +21,22 @@ dp = Dispatcher()
 # ✅ Кнопка WebApp в /start
 @dp.message(CommandStart())
 async def start(message: types.Message):
-    kb = InlineKeyboardMarkup(
-        inline_keyboard=[[InlineKeyboardButton(
-            text="🛍 Открыть магазин",
+    kb = ReplyKeyboardMarkup(
+        keyboard=[[KeyboardButton(
+            text="🍭 Открыть магазин",
             web_app=WebAppInfo(url="https://tg-webapp-gamma.vercel.app")
-        )]]
+        )]],
+        resize_keyboard=True
     )
     await message.answer("Нажми кнопку ниже, чтобы открыть магазин:", reply_markup=kb)
 
 # ✅ Команда: пост в канал → красивая версия
 @dp.message(F.text.lower() == "пост")
 async def send_post(message: types.Message):
-    markup = InlineKeyboardMarkup(inline_keyboard=[[
-        InlineKeyboardButton(
-            text="🛍 Beauty-Маркет",
-            url="https://t.me/SkinShotMarket_bot?startapp"
-        )
-    ]])
+    markup = types.InlineKeyboardMarkup(inline_keyboard=[[types.InlineKeyboardButton(
+        text="🍭 Beauty-Маркет",
+        url="https://t.me/SkinShotMarket_bot?start"
+    )]])
     await bot.send_message(
         chat_id="@NEUROBIZ_BIZ",
         text=(
@@ -54,7 +48,7 @@ async def send_post(message: types.Message):
             "🔹 Мы только начинаем — ассортимент пока компактный, но каждый месяц растёт.\n"
             "🔹 Находимся в Москве, доставляем по всей России.\n\n"
             "Если вы цените качество и результат — вам к нам.\n"
-            "👇 <b>Перейти в Beauty-Маркет</b>"
+            "🔻 <b>Перейти в Beauty-Маркет</b>"
         ),
         reply_markup=markup
     )
@@ -63,26 +57,39 @@ async def send_post(message: types.Message):
 # ✅ Обработка заказа из WebApp
 @dp.message(F.web_app_data)
 async def webapp_handler(message: types.Message):
+    print("web_app_data detected")  # <--- сюда добавлено
+    print(f"Received data: {message.web_app_data.data}")
+
     try:
         data = json.loads(message.web_app_data.data)
         items = data.get("items", [])
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         for item in items:
-            sheet.append_row([
-                now,
-                message.from_user.full_name,
-                message.from_user.id,
-                item["name"],
-                item["quantity"],
-                item["price"],
-                item["quantity"] * item["price"]
-            ])
+            row = {
+                "data": [{
+                    "Дата": now,
+                    "Имя": message.from_user.full_name,
+                    "Telegram ID": str(message.from_user.id),
+                    "Товар": item["name"],
+                    "Кол-во": str(item["quantity"]),
+                    "Цена": str(item["price"]),
+                    "Сумма": str(item["quantity"] * item["price"])
+                }]
+            }
+            response = requests.post(SHEETDB_URL, json=row)
+            print(f"[SheetDB] Ответ: {response.status_code} - {response.text}")
 
         await message.answer("✅ Заказ оформлен и отправлен! Благодарим 🙌")
     except Exception as e:
         print(f"[Ошибка WebApp] {e}")
         await message.answer("❌ Ошибка при оформлении. Попробуйте позже.")
+
+
+# ✅ Отладка
+@dp.message()
+async def debug_all(message: types.Message):
+    print(f"DEBUG: {message.text}")
 
 # 🚀 Запуск
 async def main():

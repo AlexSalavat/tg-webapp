@@ -1,4 +1,3 @@
-// ✅ ConfirmPage.jsx — жёсткая отладка sendData + WebApp API
 import React, { useEffect } from 'react';
 
 const ConfirmPage = ({ onBack }) => {
@@ -9,6 +8,9 @@ const ConfirmPage = ({ onBack }) => {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     console.log("[WebApp] cart:", cart);
     alert("📦 Попытка отправки заказа...");
+
+    // 👉 Добавь эту строку для отладки WebApp
+    console.log("Telegram WebApp:", window.Telegram?.WebApp);
 
     if (window?.Telegram?.WebApp?.sendData) {
       alert("✅ sendData доступен — отправка заказа");
