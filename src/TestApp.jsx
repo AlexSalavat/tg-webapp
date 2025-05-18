@@ -2,36 +2,33 @@ import React, { useEffect } from "react";
 
 const TelegramWebAppTest = () => {
   useEffect(() => {
-    console.log("🧪 WebApp тест начат");
-
-    if (window?.Telegram?.WebApp) {
-      window.Telegram.WebApp.ready();
-      console.log("✅ Telegram WebApp обнаружен");
-
-      const platform = window.Telegram.WebApp.platform;
-      alert("PLATFORM: " + platform);
-      console.log("PLATFORM:", platform);
-
-      if (window.Telegram.WebApp.sendData) {
-        alert("✅ sendData доступен — отправляем test payload");
-        window.Telegram.WebApp.sendData(
-          JSON.stringify({ test: true, timestamp: new Date().toISOString() })
-        );
+    const check = () => {
+      if (window?.Telegram?.WebApp) {
+        window.Telegram.WebApp.ready();
+        const platform = window.Telegram.WebApp.platform;
+        alert("✅ Telegram WebApp загружен\nPLATFORM: " + platform);
+        if (window.Telegram.WebApp.sendData) {
+          alert("✅ sendData доступен");
+          window.Telegram.WebApp.sendData(
+            JSON.stringify({ test: true, timestamp: new Date().toISOString() })
+          );
+        } else {
+          alert("❌ sendData НЕ доступен");
+        }
       } else {
-        alert("❌ sendData НЕ доступен");
-        console.warn("sendData is not available");
+        console.log("⏳ Telegram.WebApp не найден, ждём...");
+        setTimeout(check, 300);
       }
-    } else {
-      alert("❌ window.Telegram.WebApp не найден");
-      console.error("Telegram.WebApp not found");
-    }
+    };
+
+    check();
   }, []);
 
   return (
     <div className="p-4 text-white min-h-screen flex flex-col justify-center items-center bg-black">
       <h1 className="text-2xl font-bold mb-4">🧪 Telegram WebApp Test</h1>
       <p className="text-center text-base text-gray-400">
-        Этот тест проверяет доступность Telegram WebApp API и `sendData()`.
+        Ждём появления Telegram WebApp API...
       </p>
     </div>
   );
