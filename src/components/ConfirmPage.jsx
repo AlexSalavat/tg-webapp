@@ -6,9 +6,10 @@ const ConfirmPage = ({ onBack }) => {
 
     // ИНИЦИАЛИЗАЦИЯ WEBAPP
     if (window?.Telegram?.WebApp) {
-      window.Telegram.WebApp.ready(); // <--- это критично
+      window.Telegram.WebApp.ready(); // Инициализация Telegram WebApp
     }
 
+    // Задержка, чтобы Telegram успел инициализировать WebApp
     const timer = setTimeout(() => {
       try {
         const cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -31,7 +32,7 @@ const ConfirmPage = ({ onBack }) => {
         console.error("[ConfirmPage] Ошибка при отправке:", e);
         alert("❌ Ошибка ConfirmPage: " + e.message);
       }
-    }, 300); // задержка, чтобы Telegram успел инициализировать WebApp
+    }, 300);
 
     return () => clearTimeout(timer);
   }, []);
