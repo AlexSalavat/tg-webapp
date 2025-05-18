@@ -24,7 +24,9 @@ async def start(message: types.Message):
     kb = ReplyKeyboardMarkup(
         keyboard=[[KeyboardButton(
             text="🍭 Открыть магазин",
-            web_app=WebAppInfo(url="https://tg-webapp-obdnwfu6k-alexsalavats-projects.vercel.app")
+            web_app=WebAppInfo(
+                url="https://tg-webapp-3846pf09x-alexsalavats-projects.vercel.app"
+            )
         )]],
         resize_keyboard=True
     )
