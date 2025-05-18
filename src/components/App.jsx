@@ -1,4 +1,4 @@
-import TelegramWebAppTest from './TestApp';
+import TelegramWebAppTest from '../TestApp';
 
 function App() {
   return <TelegramWebAppTest />;
