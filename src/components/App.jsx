@@ -24,6 +24,16 @@ const App = () => {
   const [confirmOrder, setConfirmOrder] = useState(false);
   const { cart } = useCart();
 
+  // ✅ Telegram WebApp инициализация
+  useEffect(() => {
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.ready();
+      console.log("✅ Telegram WebApp ready");
+    } else {
+      console.warn("❌ Telegram WebApp не найден");
+    }
+  }, []);
+
   const handleBack = () => setSelectedCategory(null);
   const handleOpenCart = () => setShowCart(true);
   const handleCloseCart = () => setShowCart(false);

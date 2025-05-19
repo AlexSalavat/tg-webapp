@@ -18,29 +18,18 @@ SHEETDB_URL = "https://sheetdb.io/api/v1/puwfh4ykjybvu"
 bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
 
-# ✅ Кнопка WebApp в /start
-@dp.message(CommandStart())
-async def start(message: types.Message):
-    kb = ReplyKeyboardMarkup(
-        keyboard=[[KeyboardButton(
-            text="🍭 Открыть магазин",
-            web_app=WebAppInfo(
-                url="https://tg-webapp-3846pf09x-alexsalavats-projects.vercel.app"
-            )
-        )]],
-        resize_keyboard=True
-    )
-    await message.answer("Нажми кнопку ниже, чтобы открыть магазин:", reply_markup=kb)
 
 # ✅ Команда: пост в канал
 @dp.message(F.text.lower() == "пост")
 async def send_post(message: types.Message):
-    markup = types.InlineKeyboardMarkup(inline_keyboard=[[types.InlineKeyboardButton(
-        text="🍭 Beauty-Маркет",
-        url="https://t.me/SkinShotMarket_bot?startapp"
-    )]])
+    markup = types.InlineKeyboardMarkup(inline_keyboard=[[
+        types.InlineKeyboardButton(
+            text="🍭 Открыть магазин",
+            url="https://t.me/SkinShotMarket_bot?startapp"
+        )
+    ]])
     await bot.send_message(
-        chat_id="@NEUROBIZ_BIZ",
+        chat_id=message.chat.id,  # временно тебе лично, потом заменим на канал
         text=(
             "<b>Косметология — это про результат. Мы знаем, где его найти.</b>\n\n"
             "🔹 Прямые поставки корейских инъекционных препаратов для косметологов и салонов.\n"
@@ -54,7 +43,8 @@ async def send_post(message: types.Message):
         ),
         reply_markup=markup
     )
-    await message.answer("📢 Пост отправлен в канал.")
+    await message.answer("📢 Пост отправлен.")
+
 
 # ✅ Обработка данных из WebApp
 @dp.message(F.web_app_data)
