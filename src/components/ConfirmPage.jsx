@@ -10,12 +10,12 @@ const ConfirmPage = ({ cart, onBack }) => {
         console.log("✅ WebApp.ready()");
 
         console.log("📦 cart:", cart);
-        alert("📦 Попытка отправки заказа...");
+        alert("📦 Пожалуйста, подождите — заказ оформляется...");
 
         setTimeout(() => {
           if (window.Telegram?.WebApp?.sendData) {
             console.log("✅ sendData доступен");
-            alert("✅ sendData доступен — отправляем заказ");
+            alert("✅ Заказ успешно отправлен!");
             window.Telegram.WebApp.sendData(
               JSON.stringify({ items: cart })
             );
