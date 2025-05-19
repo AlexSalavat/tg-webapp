@@ -24,7 +24,6 @@ const App = () => {
   const [confirmOrder, setConfirmOrder] = useState(false);
   const { cart } = useCart();
 
-  // ✅ Telegram WebApp инициализация
   useEffect(() => {
     if (window.Telegram?.WebApp) {
       window.Telegram.WebApp.ready();
@@ -43,7 +42,7 @@ const App = () => {
   };
 
   if (confirmOrder) {
-    return <ConfirmPage onBack={() => setConfirmOrder(false)} />;
+    return <ConfirmPage cart={cart} onBack={() => setConfirmOrder(false)} />;
   }
 
   if (showCart) {

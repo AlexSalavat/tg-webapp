@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const ConfirmPage = ({ onBack }) => {
+const ConfirmPage = ({ cart, onBack }) => {
   useEffect(() => {
     console.log("🧪 ConfirmPage loaded");
 
@@ -9,19 +9,16 @@ const ConfirmPage = ({ onBack }) => {
         window.Telegram.WebApp.ready();
         console.log("✅ WebApp.ready()");
 
-        const platform = window.Telegram.WebApp.platform;
-        console.log("📱 PLATFORM:", platform);
-        alert("PLATFORM: " + platform);
-
-        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        console.log("[WebApp] cart:", cart);
+        console.log("📦 cart:", cart);
         alert("📦 Попытка отправки заказа...");
 
         setTimeout(() => {
           if (window.Telegram?.WebApp?.sendData) {
             console.log("✅ sendData доступен");
             alert("✅ sendData доступен — отправляем заказ");
-            window.Telegram.WebApp.sendData(JSON.stringify({ items: cart }));
+            window.Telegram.WebApp.sendData(
+              JSON.stringify({ items: cart })
+            );
           } else {
             console.warn("❌ sendData НЕ доступен");
             alert("❌ sendData НЕ доступен");
