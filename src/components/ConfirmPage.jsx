@@ -1,75 +1,96 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const ConfirmPage = ({ cart, onBack }) => {
-  useEffect(() => {
-    console.log("🧪 ConfirmPage loaded");
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [city, setCity] = useState("");
+  const [method, setMethod] = useState("whatsapp");
+  const BOT_TOKEN = "7334255719:AAHbh1FToqydNAWb-iA-oYTHJzN7Ms0oNts";
+  const CHAT_ID = "2037548370"; // Telegram ID Александра
 
-    try {
-      if (window.Telegram?.WebApp) {
-        window.Telegram.WebApp.ready();
-        console.log("✅ WebApp.ready()");
-
-        console.log("📦 cart:", cart);
-        alert("📦 Пожалуйста, подождите — заказ оформляется...");
-
-        setTimeout(() => {
-          if (window.Telegram?.WebApp?.sendData) {
-            console.log("✅ sendData доступен");
-            alert("✅ Заказ успешно отправлен!");
-            window.Telegram.WebApp.sendData(
-              JSON.stringify({ items: cart })
-            );
-          } else {
-            console.warn("❌ sendData НЕ доступен");
-            alert("❌ sendData НЕ доступен");
-          }
-
-          if (window.Telegram?.WebApp?.close) {
-            window.Telegram.WebApp.close();
-          }
-        }, 300);
-      } else {
-        console.error("❌ Telegram.WebApp не найден");
-        alert("❌ Telegram WebApp не найден");
-      }
-    } catch (e) {
-      console.error("[ConfirmPage] Ошибка:", e);
-      alert("❌ Ошибка ConfirmPage: " + e.message);
+  const handleSubmit = () => {
+    if (!name || !contact || !city) {
+      alert("Пожалуйста, заполните имя, контакт и город");
+      return;
     }
-  }, []);
+
+    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const text = `\n🛒 Новый заказ!\n👤 Имя: ${name}\n📱 Контакт: ${contact}\n🌆 Город: ${city}\n\n📦 Товары:\n${cart
+      .map(
+        (item) => `- ${item.name} x${item.quantity} = ${item.price * item.quantity} ₽`
+      )
+      .join("\n")}\n\n💰 Сумма заказа: ${total} ₽\n📲 Канал связи: ${method === "whatsapp" ? "WhatsApp" : "Telegram"}`;
+
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: CHAT_ID, text })
+    })
+      .then(() => alert("✅ Заказ успешно отправлен!"))
+      .catch(() => alert("❌ Ошибка при отправке заказа"));
+  };
 
   return (
-    <div
-      style={{
-        padding: "24px",
-        background: "#111",
-        color: "white",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <h2 style={{ marginBottom: "12px", textAlign: "center" }}>
-        🛍 Заявка отправлена!
-      </h2>
-      <p style={{ textAlign: "center", fontSize: "15px", color: "#ccc" }}>
-        Мы получили вашу заявку и скоро с вами свяжемся 💬
-      </p>
+    <div className="p-6 bg-[#111] text-white min-h-screen flex flex-col justify-center items-center space-y-4">
+      <h2 className="text-xl font-bold">🛍 Подтверждение заказа</h2>
+
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Ваше имя"
+        className="p-2 rounded bg-[#222] text-white w-full max-w-xs"
+      />
+
+      <input
+        type="text"
+        value={contact}
+        onChange={(e) => setContact(e.target.value)}
+        placeholder="WhatsApp или Telegram @username"
+        className="p-2 rounded bg-[#222] text-white w-full max-w-xs"
+      />
+
+      <input
+        type="text"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+        placeholder="Ваш город"
+        className="p-2 rounded bg-[#222] text-white w-full max-w-xs"
+      />
+
+      <div className="flex gap-4">
+        <label className="flex items-center gap-2">
+          <input
+            type="radio"
+            value="whatsapp"
+            checked={method === "whatsapp"}
+            onChange={() => setMethod("whatsapp")}
+          />
+          WhatsApp
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="radio"
+            value="telegram"
+            checked={method === "telegram"}
+            onChange={() => setMethod("telegram")}
+          />
+          Telegram
+        </label>
+      </div>
+
+      <button
+        onClick={handleSubmit}
+        className="mt-4 px-6 py-2 bg-green-600 rounded text-white font-bold"
+      >
+        ✅ Отправить заявку
+      </button>
+
       <button
         onClick={onBack}
-        style={{
-          marginTop: "24px",
-          padding: "10px 20px",
-          backgroundColor: "#444",
-          color: "white",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
+        className="mt-2 px-4 py-1 bg-gray-700 rounded text-white"
       >
-        ← Назад в каталог
+        ← Назад
       </button>
     </div>
   );
