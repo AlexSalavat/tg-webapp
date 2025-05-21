@@ -56,6 +56,7 @@ ${cart
             onChange={(e) => setName(e.target.value)}
             placeholder="Ваше имя"
             className="flex-1 p-3 text-lg rounded bg-[#222] text-white placeholder-gray-400"
+            style={{ color: 'white' }}
           />
         </div>
 
@@ -67,6 +68,7 @@ ${cart
             onChange={(e) => setContact(e.target.value)}
             placeholder="Номер телефона"
             className="flex-1 p-3 text-lg rounded bg-[#222] text-white placeholder-gray-400"
+            style={{ color: 'white' }}
           />
         </div>
 
@@ -78,6 +80,7 @@ ${cart
             onChange={(e) => setCity(e.target.value)}
             placeholder="Город"
             className="flex-1 p-3 text-lg rounded bg-[#222] text-white placeholder-gray-400"
+            style={{ color: 'white' }}
           />
         </div>
       </div>
@@ -106,19 +109,21 @@ ${cart
         </div>
       )}
 
-      <button
-        onClick={handleSubmit}
-        className="mt-4 px-6 py-2 bg-green-600 rounded text-white font-bold transition-transform hover:scale-105 active:scale-95"
-      >
-        ✅ Отправить заявку
-      </button>
+      <div className="w-full max-w-xs space-y-2 pt-2">
+        <button
+          onClick={handleSubmit}
+          className="w-full py-3 bg-green-600 text-white rounded font-bold transition-transform hover:scale-105 active:scale-95"
+        >
+          ✅ Отправить заявку
+        </button>
 
-      <button
-        onClick={onBack}
-        className="mt-2 px-4 py-1 bg-gray-700 rounded text-white"
-      >
-        ← Назад
-      </button>
+        <button
+          onClick={onBack}
+          className="w-full py-2 bg-gray-700 text-white rounded"
+        >
+          ← Назад
+        </button>
+      </div>
     </div>
   );
 };
