@@ -33,74 +33,86 @@ const ConfirmPage = ({ cart, onBack }) => {
   };
 
   return (
-    <div className="bg-black text-white min-h-screen flex flex-col justify-center items-center px-4 py-8 space-y-5">
-      <h2 className="text-2xl font-bold text-center">🛍 Подтверждение заказа</h2>
+    <div className="min-h-screen bg-[#0f0f0f] text-white px-4 py-6 flex flex-col items-center space-y-5">
+      <h2 className="text-2xl font-bold">🛍 Подтверждение заказа</h2>
 
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Ваше имя"
-        className="w-full max-w-md p-3 rounded bg-neutral-800 text-white placeholder-gray-400"
-      />
-
-      <input
-        type="text"
-        value={contact}
-        onChange={(e) => setContact(e.target.value)}
-        placeholder="Ваш номер телефона"
-        className="w-full max-w-md p-3 rounded bg-neutral-800 text-white placeholder-gray-400"
-      />
-
-      <input
-        type="text"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-        placeholder="Ваш город"
-        className="w-full max-w-md p-3 rounded bg-neutral-800 text-white placeholder-gray-400"
-      />
-
-      <div className="w-full max-w-md">
-        <h3 className="text-sm mb-2">Способ связи с вами:</h3>
-        <div className="flex rounded overflow-hidden border border-neutral-700">
-          <button
-            className={`w-1/2 py-2 font-semibold ${
-              method === "whatsapp" ? "bg-green-600 text-white" : "bg-neutral-800 text-gray-400"
-            }`}
-            onClick={() => setMethod("whatsapp")}
-          >
-            🟢 WhatsApp
-          </button>
-          <button
-            className={`w-1/2 py-2 font-semibold ${
-              method === "telegram" ? "bg-blue-600 text-white" : "bg-neutral-800 text-gray-400"
-            }`}
-            onClick={() => setMethod("telegram")}
-          >
-            🔵 Telegram
-          </button>
+      <div className="w-full max-w-md space-y-4">
+        <div>
+          <label className="block mb-1 text-sm">👤 Ваше имя</label>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Иван"
+            className="w-full p-3 rounded bg-[#1c1c1c] text-white placeholder-gray-400 border border-gray-600"
+          />
         </div>
+
+        <div>
+          <label className="block mb-1 text-sm">📞 Номер телефона</label>
+          <input
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
+            placeholder="+7..."
+            className="w-full p-3 rounded bg-[#1c1c1c] text-white placeholder-gray-400 border border-gray-600"
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 text-sm">🌍 Город</label>
+          <input
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="Москва"
+            className="w-full p-3 rounded bg-[#1c1c1c] text-white placeholder-gray-400 border border-gray-600"
+          />
+        </div>
+
+        <div>
+          <label className="block mb-2 text-sm">📲 Способ связи:</label>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setMethod("whatsapp")}
+              className={`w-1/2 p-2 rounded font-semibold ${
+                method === "whatsapp"
+                  ? "bg-green-600 text-white"
+                  : "bg-[#1c1c1c] text-gray-300 border border-gray-600"
+              }`}
+            >
+              🟢 WhatsApp
+            </button>
+            <button
+              onClick={() => setMethod("telegram")}
+              className={`w-1/2 p-2 rounded font-semibold ${
+                method === "telegram"
+                  ? "bg-blue-600 text-white"
+                  : "bg-[#1c1c1c] text-gray-300 border border-gray-600"
+              }`}
+            >
+              🔵 Telegram
+            </button>
+          </div>
+        </div>
+
+        {orderId && (
+          <div className="text-green-400 font-medium text-center">
+            ✅ Заказ №{orderId} успешно отправлен!
+          </div>
+        )}
+
+        <button
+          onClick={handleSubmit}
+          className="w-full py-3 bg-green-600 text-white rounded font-bold hover:bg-green-700"
+        >
+          ✅ Отправить заявку
+        </button>
+
+        <button
+          onClick={onBack}
+          className="w-full py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
+        >
+          ← Назад
+        </button>
       </div>
-
-      {orderId && (
-        <div className="text-green-400 text-center font-medium">
-          📦 Ваш заказ №{orderId} успешно отправлен!
-        </div>
-      )}
-
-      <button
-        onClick={handleSubmit}
-        className="w-full max-w-md py-3 bg-green-600 text-white rounded font-bold hover:bg-green-700 transition"
-      >
-        ✅ Отправить заявку
-      </button>
-
-      <button
-        onClick={onBack}
-        className="w-full max-w-md py-2 bg-neutral-700 text-white rounded hover:bg-neutral-600"
-      >
-        ← Назад
-      </button>
     </div>
   );
 };
