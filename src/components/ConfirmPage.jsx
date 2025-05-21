@@ -44,47 +44,44 @@ ${cart
   };
 
   return (
-    <div className="p-6 bg-[#111] min-h-screen flex flex-col justify-center items-center space-y-4">
-      <h2 style={{ color: 'white' }} className="text-xl font-bold drop-shadow-sm shadow-white">🛍 Подтверждение заказа</h2>
+    <div className="p-4 bg-[#111] min-h-screen flex flex-col justify-center items-center space-y-4">
+      <h2 className="text-xl font-bold text-white">🛍 Подтверждение заказа</h2>
 
-      <div className="relative w-full max-w-xs">
-        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">👤</span>
+      <div className="flex items-center gap-2 w-full max-w-xs">
+        <span className="text-xl">👤</span>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Ваше имя"
-          style={{ fontSize: '16px' }}
-          className="pl-10 p-3 rounded bg-[#222] text-white w-full placeholder-gray-400"
+          className="flex-1 p-2 rounded bg-[#222] text-white placeholder-gray-400 text-base"
         />
       </div>
 
-      <div className="relative w-full max-w-xs">
-        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">📞</span>
+      <div className="flex items-center gap-2 w-full max-w-xs">
+        <span className="text-xl">📞</span>
         <input
           type="text"
           value={contact}
           onChange={(e) => setContact(e.target.value)}
           placeholder="Ваш номер телефона"
-          style={{ fontSize: '16px' }}
-          className="pl-10 p-3 rounded bg-[#222] text-white w-full placeholder-gray-400"
+          className="flex-1 p-2 rounded bg-[#222] text-white placeholder-gray-400 text-base"
         />
       </div>
 
-      <div className="relative w-full max-w-xs">
-        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">🌍</span>
+      <div className="flex items-center gap-2 w-full max-w-xs">
+        <span className="text-xl">🌍</span>
         <input
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
           placeholder="Ваш город"
-          style={{ fontSize: '16px' }}
-          className="pl-10 p-3 rounded bg-[#222] text-white w-full placeholder-gray-400"
+          className="flex-1 p-2 rounded bg-[#222] text-white placeholder-gray-400 text-base"
         />
       </div>
 
       <div className="w-full max-w-xs">
-        <h3 style={{ color: 'white' }} className="text-base font-semibold mt-4 mb-2 drop-shadow-sm shadow-white">Способ связи с вами:</h3>
+        <h3 className="text-white text-base font-semibold mt-4 mb-2">Способ связи с вами:</h3>
         <div className="flex bg-[#222] rounded overflow-hidden text-sm font-medium">
           <button
             className={`px-4 py-2 w-1/2 ${method === "whatsapp" ? 'bg-green-600 text-white' : 'text-gray-300'}`}
