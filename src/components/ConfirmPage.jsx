@@ -37,6 +37,8 @@ const ConfirmPage = ({ cart, onBack }) => {
     <div className="p-6 bg-[#111] text-white min-h-screen flex flex-col justify-center items-center space-y-4">
       <h2 className="text-xl font-bold text-blue-400 drop-shadow-sm shadow-white">🛍 Подтверждение заказа</h2>
 
+      <p className="text-blue-300">🔧 Это тестовая строка! Если ты её видишь — значит всё работает.</p>
+
       <div className="relative w-full max-w-xs">
         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">👤</span>
         <input
