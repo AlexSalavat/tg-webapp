@@ -45,7 +45,7 @@ ${cart
 
   return (
     <div className="p-4 bg-[#111] min-h-screen flex flex-col justify-center items-center space-y-4">
-      <h2 className="text-xl font-bold text-white">🛍 <span className="text-white">Подтверждение заказа</span></h2>
+      <h2 className="text-xl font-bold" style={{ color: 'white' }}>🛍 <span>Подтверждение заказа</span></h2>
 
       <div className="flex items-center gap-2 w-full max-w-xs">
         <span className="text-xl">👤</span>
@@ -54,7 +54,8 @@ ${cart
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Ваше имя"
-          className="flex-1 p-2 rounded bg-[#222] text-white placeholder-gray-400 text-base"
+          style={{ color: 'white' }}
+          className="flex-1 p-2 rounded bg-[#222] placeholder-gray-400 text-base"
         />
       </div>
 
@@ -65,7 +66,8 @@ ${cart
           value={contact}
           onChange={(e) => setContact(e.target.value)}
           placeholder="Ваш номер телефона"
-          className="flex-1 p-2 rounded bg-[#222] text-white placeholder-gray-400 text-base"
+          style={{ color: 'white' }}
+          className="flex-1 p-2 rounded bg-[#222] placeholder-gray-400 text-base"
         />
       </div>
 
@@ -76,12 +78,13 @@ ${cart
           value={city}
           onChange={(e) => setCity(e.target.value)}
           placeholder="Ваш город"
-          className="flex-1 p-2 rounded bg-[#222] text-white placeholder-gray-400 text-base"
+          style={{ color: 'white' }}
+          className="flex-1 p-2 rounded bg-[#222] placeholder-gray-400 text-base"
         />
       </div>
 
       <div className="w-full max-w-xs">
-        <h3 className="text-white text-base font-semibold mt-4 mb-2">Способ связи с вами:</h3>
+        <h3 className="text-base font-semibold mt-4 mb-2" style={{ color: 'white' }}>Способ связи с вами:</h3>
         <div className="flex bg-[#222] rounded overflow-hidden text-sm font-medium">
           <button
             className={`px-4 py-2 w-1/2 ${method === "whatsapp" ? 'bg-green-600 text-white' : 'text-gray-300'}`}
@@ -100,7 +103,7 @@ ${cart
 
       {orderId && (
         <div className="mt-6 text-green-400 font-semibold text-center text-base px-2">
-          📦 <span className="text-gray-100">Ваш заказ №{orderId}</span> успешно отправлен!<br />
+          📦 <span style={{ color: '#f5f5f5' }}>Ваш заказ №{orderId}</span> успешно отправлен!<br />
           <span className="text-gray-300">Ожидайте сообщение от менеджера.</span>
         </div>
       )}
