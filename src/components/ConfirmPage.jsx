@@ -34,48 +34,36 @@ const ConfirmPage = ({ cart, onBack }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#111] text-white flex flex-col items-center px-4 py-6 space-y-5">
+    <div className="min-h-screen bg-black text-white flex flex-col items-center px-4 py-6 space-y-5">
       <h2 className="text-xl font-bold">🛍 Подтверждение заказа</h2>
 
       <div className="w-full max-w-sm space-y-3">
-        <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">👤</span>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Ваше имя"
-            className="pl-10 w-full p-3 rounded bg-[#222] text-white placeholder-gray-400"
-          />
-        </div>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="👤 Ваше имя"
+          className="w-full p-3 rounded bg-[#222] text-white placeholder-gray-400"
+        />
+        <input
+          type="text"
+          value={contact}
+          onChange={(e) => setContact(e.target.value)}
+          placeholder="📞 Номер телефона"
+          className="w-full p-3 rounded bg-[#222] text-white placeholder-gray-400"
+        />
+        <input
+          type="text"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          placeholder="🌍 Город"
+          className="w-full p-3 rounded bg-[#222] text-white placeholder-gray-400"
+        />
 
-        <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">📞</span>
-          <input
-            type="text"
-            value={contact}
-            onChange={(e) => setContact(e.target.value)}
-            placeholder="+7..."
-            className="pl-10 w-full p-3 rounded bg-[#222] text-white placeholder-gray-400"
-          />
-        </div>
-
-        <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🌍</span>
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder="Город"
-            className="pl-10 w-full p-3 rounded bg-[#222] text-white placeholder-gray-400"
-          />
-        </div>
-
-        <div className="text-sm mt-4 mb-1">📲 Способ связи:</div>
-        <div className="flex w-full gap-2">
+        <div className="flex gap-2 mt-3">
           <button
             onClick={() => setMethod("whatsapp")}
-            className={`w-1/2 py-2 rounded font-medium ${
+            className={`w-1/2 py-2 rounded ${
               method === "whatsapp" ? "bg-green-600 text-white" : "bg-[#222] text-gray-300"
             }`}
           >
@@ -83,7 +71,7 @@ const ConfirmPage = ({ cart, onBack }) => {
           </button>
           <button
             onClick={() => setMethod("telegram")}
-            className={`w-1/2 py-2 rounded font-medium ${
+            className={`w-1/2 py-2 rounded ${
               method === "telegram" ? "bg-blue-600 text-white" : "bg-[#222] text-gray-300"
             }`}
           >
@@ -99,14 +87,14 @@ const ConfirmPage = ({ cart, onBack }) => {
 
         <button
           onClick={handleSubmit}
-          className="w-full py-3 bg-green-600 text-white rounded font-bold hover:bg-green-700"
+          className="w-full py-3 bg-green-600 text-white rounded font-bold"
         >
           ✅ Отправить заявку
         </button>
 
         <button
           onClick={onBack}
-          className="w-full py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
+          className="w-full py-2 bg-gray-700 text-white rounded"
         >
           ← Назад
         </button>
