@@ -47,42 +47,40 @@ ${cart
     <div className="p-6 bg-[#111] min-h-screen flex flex-col justify-center items-center space-y-4">
       <h2 style={{ color: 'white' }} className="text-xl font-bold drop-shadow-sm shadow-white">🛍 Подтверждение заказа</h2>
 
-      <div className="w-full max-w-xs space-y-3">
-        <div className="flex items-center gap-2">
-          <span className="text-gray-400 text-xl">👤</span>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Ваше имя"
-            className="flex-1 p-3 text-lg rounded bg-[#222] text-white placeholder-gray-400"
-            style={{ color: 'white' }}
-          />
-        </div>
+      <div className="relative w-full max-w-xs">
+        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">👤</span>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Ваше имя"
+          style={{ fontSize: '16px' }}
+          className="pl-10 p-3 rounded bg-[#222] text-white w-full placeholder-gray-400"
+        />
+      </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-gray-400 text-xl">📞</span>
-          <input
-            type="text"
-            value={contact}
-            onChange={(e) => setContact(e.target.value)}
-            placeholder="Номер телефона"
-            className="flex-1 p-3 text-lg rounded bg-[#222] text-white placeholder-gray-400"
-            style={{ color: 'white' }}
-          />
-        </div>
+      <div className="relative w-full max-w-xs">
+        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">📞</span>
+        <input
+          type="text"
+          value={contact}
+          onChange={(e) => setContact(e.target.value)}
+          placeholder="Ваш номер телефона"
+          style={{ fontSize: '16px' }}
+          className="pl-10 p-3 rounded bg-[#222] text-white w-full placeholder-gray-400"
+        />
+      </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-gray-400 text-xl">🌍</span>
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder="Город"
-            className="flex-1 p-3 text-lg rounded bg-[#222] text-white placeholder-gray-400"
-            style={{ color: 'white' }}
-          />
-        </div>
+      <div className="relative w-full max-w-xs">
+        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">🌍</span>
+        <input
+          type="text"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          placeholder="Ваш город"
+          style={{ fontSize: '16px' }}
+          className="pl-10 p-3 rounded bg-[#222] text-white w-full placeholder-gray-400"
+        />
       </div>
 
       <div className="w-full max-w-xs">
@@ -104,26 +102,25 @@ ${cart
       </div>
 
       {orderId && (
-        <div className="mt-2 text-green-400 font-semibold text-center">
-          📦 Ваш заказ <span className="text-white">№{orderId}</span> успешно отправлен! Ожидайте сообщение от менеджера.
+        <div className="mt-6 text-green-400 font-semibold text-center text-base px-2">
+          📦 Ваш заказ <span className="text-white">№{orderId}</span> успешно отправлен!<br />
+          <span className="text-gray-300">Ожидайте сообщение от менеджера.</span>
         </div>
       )}
 
-      <div className="w-full max-w-xs space-y-2 pt-2">
-        <button
-          onClick={handleSubmit}
-          className="w-full py-3 bg-green-600 text-white rounded font-bold transition-transform hover:scale-105 active:scale-95"
-        >
-          ✅ Отправить заявку
-        </button>
+      <button
+        onClick={handleSubmit}
+        className="mt-4 px-6 py-2 bg-green-600 rounded text-white font-bold transition-transform hover:scale-105 active:scale-95"
+      >
+        ✅ Отправить заявку
+      </button>
 
-        <button
-          onClick={onBack}
-          className="w-full py-2 bg-gray-700 text-white rounded"
-        >
-          ← Назад
-        </button>
-      </div>
+      <button
+        onClick={onBack}
+        className="mt-2 px-4 py-1 bg-gray-700 rounded text-white"
+      >
+        ← Назад
+      </button>
     </div>
   );
 };
