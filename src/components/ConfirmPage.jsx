@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const ConfirmPage = ({ cart, onBack }) => {
   const [name, setName] = useState("");
@@ -6,7 +6,6 @@ const ConfirmPage = ({ cart, onBack }) => {
   const [city, setCity] = useState("");
   const [method, setMethod] = useState("whatsapp");
   const [orderId, setOrderId] = useState(null);
-
   const BOT_TOKEN = "7334255719:AAHbh1FToqydNAWb-iA-oYTHJzN7Ms0oNts";
   const CHAT_ID = "2037548370";
 
@@ -19,86 +18,105 @@ const ConfirmPage = ({ cart, onBack }) => {
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const newOrderId = Date.now();
     setOrderId(newOrderId);
+    const text = `🛒 <b>Новый заказ</b> №${newOrderId}
 
-    const text = `\uD83D\uDED2 <b>Новый заказ</b> №${newOrderId}\n\n\uD83D\uDC64 Имя: ${name}\n\uD83D\uDCDE Контакт: ${contact}\n\uD83C\uDF06 Город: ${city}\n\n\uD83D\uDCE6 Товары:\n${cart
-      .map((item) => `- ${item.name} x${item.quantity} = ${item.price * item.quantity} ₽`)
-      .join("\n")}\n\n\uD83D\uDCB0 Сумма заказа: ${total} ₽\n\uD83D\uDCF2 Канал связи: ${method === "whatsapp" ? "WhatsApp" : "Telegram"}`;
+👤 Имя: ${name}
+📱 Контакт: ${contact}
+🌆 Город: ${city}
+
+📦 Товары:
+${cart
+      .map(
+        (item) => `- ${item.name} x${item.quantity} = ${item.price * item.quantity} ₽`
+      )
+      .join("\n")}
+
+💰 Сумма заказа: ${total} ₽
+📲 Канал связи: ${method === "whatsapp" ? "WhatsApp" : "Telegram"}`;
 
     fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: "HTML" })
     })
-      .then(() => alert(`✅ Заказ №${newOrderId} успешно отправлен!`))
+      .then(() => alert(`✅ Заказ №${newOrderId} успешно отправлен! С вами свяжется менеджер.`))
       .catch(() => alert("❌ Ошибка при отправке заказа"));
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center px-4 py-6 space-y-5">
-      <h2 className="text-xl font-bold">🛍 Заказ</h2>
+    <div className="p-6 bg-[#111] min-h-screen flex flex-col justify-center items-center space-y-4">
+      <h2 style={{ color: 'white' }} className="text-xl font-bold drop-shadow-sm shadow-white">🛍 Подтверждение заказа</h2>
 
-      <div className="w-full max-w-sm space-y-2">
+      <div className="relative w-full max-w-xs">
+        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">👤</span>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="👤 Имя"
-          className="w-full p-3 rounded bg-[#222] text-white placeholder-gray-400"
+          placeholder="Ваше имя"
+          className="pl-10 p-3 text-lg rounded bg-[#222] text-white w-full placeholder-gray-400"
         />
+      </div>
+
+      <div className="relative w-full max-w-xs">
+        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">📞</span>
         <input
           type="text"
           value={contact}
           onChange={(e) => setContact(e.target.value)}
-          placeholder="📞 Телефон"
-          className="w-full p-3 rounded bg-[#222] text-white placeholder-gray-400"
+          placeholder="Ваш номер телефона"
+          className="pl-10 p-3 text-lg rounded bg-[#222] text-white w-full placeholder-gray-400"
         />
+      </div>
+
+      <div className="relative w-full max-w-xs">
+        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">🌍</span>
         <input
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          placeholder="🌍 Город"
-          className="w-full p-3 rounded bg-[#222] text-white placeholder-gray-400"
+          placeholder="Ваш город"
+          className="pl-10 p-3 text-lg rounded bg-[#222] text-white w-full placeholder-gray-400"
         />
+      </div>
 
-        <div className="flex gap-2 mt-3">
+      <div className="w-full max-w-xs">
+        <h3 style={{ color: 'white' }} className="text-base font-semibold mt-4 mb-2 drop-shadow-sm shadow-white">Способ связи с вами:</h3>
+        <div className="flex bg-[#222] rounded overflow-hidden text-sm font-medium">
           <button
+            className={`px-4 py-2 w-1/2 ${method === "whatsapp" ? 'bg-green-600 text-white' : 'text-gray-300'}`}
             onClick={() => setMethod("whatsapp")}
-            className={`w-1/2 py-2 rounded text-sm font-medium ${
-              method === "whatsapp" ? "bg-green-600 text-white" : "bg-[#222] text-gray-300"
-            }`}
           >
             🟢 WhatsApp
           </button>
           <button
+            className={`px-4 py-2 w-1/2 ${method === "telegram" ? 'bg-blue-600 text-white' : 'text-gray-300'}`}
             onClick={() => setMethod("telegram")}
-            className={`w-1/2 py-2 rounded text-sm font-medium ${
-              method === "telegram" ? "bg-blue-600 text-white" : "bg-[#222] text-gray-300"
-            }`}
           >
             🔵 Telegram
           </button>
         </div>
-
-        {orderId && (
-          <div className="text-center text-green-400 font-medium text-sm">
-            ✅ Заказ №{orderId} отправлен!
-          </div>
-        )}
-
-        <button
-          onClick={handleSubmit}
-          className="w-full py-3 bg-green-600 text-white rounded font-bold text-sm"
-        >
-          ✅ Отправить
-        </button>
-
-        <button
-          onClick={onBack}
-          className="w-full py-2 bg-gray-700 text-white rounded text-sm"
-        >
-          ← Назад
-        </button>
       </div>
+
+      {orderId && (
+        <div className="mt-2 text-green-400 font-semibold text-center">
+          📦 Ваш заказ <span className="text-white">№{orderId}</span> успешно отправлен! Ожидайте сообщение от менеджера.
+        </div>
+      )}
+
+      <button
+        onClick={handleSubmit}
+        className="mt-4 px-6 py-2 bg-green-600 rounded text-white font-bold transition-transform hover:scale-105 active:scale-95"
+      >
+        ✅ Отправить заявку
+      </button>
+
+      <button
+        onClick={onBack}
+        className="mt-2 px-4 py-1 bg-gray-700 rounded text-white"
+      >
+        ← Назад
+      </button>
     </div>
   );
 };
