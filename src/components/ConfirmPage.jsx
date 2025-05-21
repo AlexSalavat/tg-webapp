@@ -45,7 +45,7 @@ ${cart
 
   return (
     <div className="p-4 bg-[#111] min-h-screen flex flex-col justify-center items-center space-y-4">
-      <h2 className="text-xl font-bold text-white">🛍 Подтверждение заказа</h2>
+      <h2 className="text-xl font-bold text-white">🛍 <span className="text-white">Подтверждение заказа</span></h2>
 
       <div className="flex items-center gap-2 w-full max-w-xs">
         <span className="text-xl">👤</span>
@@ -55,6 +55,7 @@ ${cart
           onChange={(e) => setName(e.target.value)}
           placeholder="Ваше имя"
           className="flex-1 p-2 rounded bg-[#222] text-white placeholder-gray-400 text-base"
+          style={{ color: 'white' }}
         />
       </div>
 
@@ -66,6 +67,7 @@ ${cart
           onChange={(e) => setContact(e.target.value)}
           placeholder="Ваш номер телефона"
           className="flex-1 p-2 rounded bg-[#222] text-white placeholder-gray-400 text-base"
+          style={{ color: 'white' }}
         />
       </div>
 
@@ -77,6 +79,7 @@ ${cart
           onChange={(e) => setCity(e.target.value)}
           placeholder="Ваш город"
           className="flex-1 p-2 rounded bg-[#222] text-white placeholder-gray-400 text-base"
+          style={{ color: 'white' }}
         />
       </div>
 
