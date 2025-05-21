@@ -47,37 +47,39 @@ ${cart
     <div className="p-6 bg-[#111] min-h-screen flex flex-col justify-center items-center space-y-4">
       <h2 style={{ color: 'white' }} className="text-xl font-bold drop-shadow-sm shadow-white">🛍 Подтверждение заказа</h2>
 
-      <div className="relative w-full max-w-xs">
-        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">👤</span>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Ваше имя"
-          className="pl-10 p-3 text-lg rounded bg-[#222] text-white w-full placeholder-gray-400"
-        />
-      </div>
+      <div className="w-full max-w-xs space-y-3">
+        <div className="flex items-center gap-2">
+          <span className="text-gray-400 text-xl">👤</span>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Ваше имя"
+            className="flex-1 p-3 text-lg rounded bg-[#222] text-white placeholder-gray-400"
+          />
+        </div>
 
-      <div className="relative w-full max-w-xs">
-        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">📞</span>
-        <input
-          type="text"
-          value={contact}
-          onChange={(e) => setContact(e.target.value)}
-          placeholder="Ваш номер телефона"
-          className="pl-10 p-3 text-lg rounded bg-[#222] text-white w-full placeholder-gray-400"
-        />
-      </div>
+        <div className="flex items-center gap-2">
+          <span className="text-gray-400 text-xl">📞</span>
+          <input
+            type="text"
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
+            placeholder="Номер телефона"
+            className="flex-1 p-3 text-lg rounded bg-[#222] text-white placeholder-gray-400"
+          />
+        </div>
 
-      <div className="relative w-full max-w-xs">
-        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">🌍</span>
-        <input
-          type="text"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="Ваш город"
-          className="pl-10 p-3 text-lg rounded bg-[#222] text-white w-full placeholder-gray-400"
-        />
+        <div className="flex items-center gap-2">
+          <span className="text-gray-400 text-xl">🌍</span>
+          <input
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="Город"
+            className="flex-1 p-3 text-lg rounded bg-[#222] text-white placeholder-gray-400"
+          />
+        </div>
       </div>
 
       <div className="w-full max-w-xs">
