@@ -5,6 +5,7 @@ const ConfirmPage = ({ cart, onBack }) => {
   const [contact, setContact] = useState("");
   const [city, setCity] = useState("");
   const [method, setMethod] = useState("whatsapp");
+  const [orderId, setOrderId] = useState(null);
   const BOT_TOKEN = "7334255719:AAHbh1FToqydNAWb-iA-oYTHJzN7Ms0oNts";
   const CHAT_ID = "2037548370";
 
@@ -15,7 +16,9 @@ const ConfirmPage = ({ cart, onBack }) => {
     }
 
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const text = `\n🛒 Новый заказ!\n👤 Имя: ${name}\n📱 Контакт: ${contact}\n🌆 Город: ${city}\n\n📦 Товары:\n${cart
+    const newOrderId = Date.now();
+    setOrderId(newOrderId);
+    const text = `🛒 <b>Новый заказ</b> №${newOrderId}\n\n👤 Имя: ${name}\n📱 Контакт: ${contact}\n🌆 Город: ${city}\n\n📦 Товары:\n${cart
       .map(
         (item) => `- ${item.name} x${item.quantity} = ${item.price * item.quantity} ₽`
       )
@@ -24,15 +27,15 @@ const ConfirmPage = ({ cart, onBack }) => {
     fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: CHAT_ID, text })
+      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: "HTML" })
     })
-      .then(() => alert("✅ Заказ успешно отправлен!"))
+      .then(() => alert(`✅ Заказ №${newOrderId} успешно отправлен! С вами свяжется менеджер.`))
       .catch(() => alert("❌ Ошибка при отправке заказа"));
   };
 
   return (
     <div className="p-6 bg-[#111] text-white min-h-screen flex flex-col justify-center items-center space-y-4">
-      <h2 className="text-xl font-bold">🛍 Подтверждение заказа</h2>
+      <h2 className="text-xl font-bold text-white">🛍 Подтверждение заказа</h2>
 
       <div className="relative w-full max-w-xs">
         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">👤</span>
@@ -68,7 +71,7 @@ const ConfirmPage = ({ cart, onBack }) => {
       </div>
 
       <div className="w-full max-w-xs">
-        <h3 className="text-base font-semibold mt-4 mb-2 text-gray-300">Выберите способ связи:</h3>
+        <h3 className="text-base font-semibold mt-4 mb-2 text-white">Способ связи с вами:</h3>
         <div className="flex bg-[#222] rounded overflow-hidden text-sm font-medium">
           <button
             className={`px-4 py-2 w-1/2 ${method === "whatsapp" ? 'bg-green-600 text-white' : 'text-gray-300'}`}
@@ -84,6 +87,12 @@ const ConfirmPage = ({ cart, onBack }) => {
           </button>
         </div>
       </div>
+
+      {orderId && (
+        <div className="mt-2 text-green-400 font-semibold">
+          📦 Ваш заказ №{orderId} успешно отправлен!
+        </div>
+      )}
 
       <button
         onClick={handleSubmit}
