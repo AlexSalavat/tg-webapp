@@ -6,6 +6,7 @@ const ConfirmPage = ({ cart, onBack }) => {
   const [city, setCity] = useState("");
   const [method, setMethod] = useState("whatsapp");
   const [orderId, setOrderId] = useState(null);
+
   const BOT_TOKEN = "7334255719:AAHbh1FToqydNAWb-iA-oYTHJzN7Ms0oNts";
   const CHAT_ID = "2037548370";
 
@@ -33,69 +34,66 @@ const ConfirmPage = ({ cart, onBack }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] text-white px-4 py-6 flex flex-col items-center space-y-5">
-      <h2 className="text-2xl font-bold">🛍 Подтверждение заказа</h2>
+    <div className="min-h-screen bg-[#111] text-white flex flex-col items-center px-4 py-6 space-y-5">
+      <h2 className="text-xl font-bold">🛍 Подтверждение заказа</h2>
 
-      <div className="w-full max-w-md space-y-4">
-        <div>
-          <label className="block mb-1 text-sm">👤 Ваше имя</label>
+      <div className="w-full max-w-sm space-y-3">
+        <div className="relative">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">👤</span>
           <input
+            type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Иван"
-            className="w-full p-3 rounded bg-[#1c1c1c] text-white placeholder-gray-400 border border-gray-600"
+            placeholder="Ваше имя"
+            className="pl-10 w-full p-3 rounded bg-[#222] text-white placeholder-gray-400"
           />
         </div>
 
-        <div>
-          <label className="block mb-1 text-sm">📞 Номер телефона</label>
+        <div className="relative">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">📞</span>
           <input
+            type="text"
             value={contact}
             onChange={(e) => setContact(e.target.value)}
             placeholder="+7..."
-            className="w-full p-3 rounded bg-[#1c1c1c] text-white placeholder-gray-400 border border-gray-600"
+            className="pl-10 w-full p-3 rounded bg-[#222] text-white placeholder-gray-400"
           />
         </div>
 
-        <div>
-          <label className="block mb-1 text-sm">🌍 Город</label>
+        <div className="relative">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🌍</span>
           <input
+            type="text"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            placeholder="Москва"
-            className="w-full p-3 rounded bg-[#1c1c1c] text-white placeholder-gray-400 border border-gray-600"
+            placeholder="Город"
+            className="pl-10 w-full p-3 rounded bg-[#222] text-white placeholder-gray-400"
           />
         </div>
 
-        <div>
-          <label className="block mb-2 text-sm">📲 Способ связи:</label>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setMethod("whatsapp")}
-              className={`w-1/2 p-2 rounded font-semibold ${
-                method === "whatsapp"
-                  ? "bg-green-600 text-white"
-                  : "bg-[#1c1c1c] text-gray-300 border border-gray-600"
-              }`}
-            >
-              🟢 WhatsApp
-            </button>
-            <button
-              onClick={() => setMethod("telegram")}
-              className={`w-1/2 p-2 rounded font-semibold ${
-                method === "telegram"
-                  ? "bg-blue-600 text-white"
-                  : "bg-[#1c1c1c] text-gray-300 border border-gray-600"
-              }`}
-            >
-              🔵 Telegram
-            </button>
-          </div>
+        <div className="text-sm mt-4 mb-1">📲 Способ связи:</div>
+        <div className="flex w-full gap-2">
+          <button
+            onClick={() => setMethod("whatsapp")}
+            className={`w-1/2 py-2 rounded font-medium ${
+              method === "whatsapp" ? "bg-green-600 text-white" : "bg-[#222] text-gray-300"
+            }`}
+          >
+            🟢 WhatsApp
+          </button>
+          <button
+            onClick={() => setMethod("telegram")}
+            className={`w-1/2 py-2 rounded font-medium ${
+              method === "telegram" ? "bg-blue-600 text-white" : "bg-[#222] text-gray-300"
+            }`}
+          >
+            🔵 Telegram
+          </button>
         </div>
 
         {orderId && (
-          <div className="text-green-400 font-medium text-center">
-            ✅ Заказ №{orderId} успешно отправлен!
+          <div className="text-center text-green-400 font-medium">
+            ✅ Заказ №{orderId} отправлен!
           </div>
         )}
 
