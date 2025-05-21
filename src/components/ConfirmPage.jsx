@@ -55,7 +55,6 @@ ${cart
           onChange={(e) => setName(e.target.value)}
           placeholder="Ваше имя"
           className="flex-1 p-2 rounded bg-[#222] text-white placeholder-gray-400 text-base"
-          style={{ color: 'white' }}
         />
       </div>
 
@@ -67,7 +66,6 @@ ${cart
           onChange={(e) => setContact(e.target.value)}
           placeholder="Ваш номер телефона"
           className="flex-1 p-2 rounded bg-[#222] text-white placeholder-gray-400 text-base"
-          style={{ color: 'white' }}
         />
       </div>
 
@@ -79,7 +77,6 @@ ${cart
           onChange={(e) => setCity(e.target.value)}
           placeholder="Ваш город"
           className="flex-1 p-2 rounded bg-[#222] text-white placeholder-gray-400 text-base"
-          style={{ color: 'white' }}
         />
       </div>
 
@@ -103,8 +100,8 @@ ${cart
 
       {orderId && (
         <div className="mt-6 text-green-400 font-semibold text-center text-base px-2">
-          📦 Ваш заказ <span className="text-gray-100">№{orderId}</span> успешно отправлен!<br />
-          <span className="text-gray-200">Ожидайте сообщение от менеджера.</span>
+          📦 <span className="text-gray-100">Ваш заказ №{orderId}</span> успешно отправлен!<br />
+          <span className="text-gray-300">Ожидайте сообщение от менеджера.</span>
         </div>
       )}
 
