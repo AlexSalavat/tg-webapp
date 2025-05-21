@@ -35,9 +35,9 @@ const ConfirmPage = ({ cart, onBack }) => {
 
   return (
     <div className="p-6 bg-[#111] text-white min-h-screen flex flex-col justify-center items-center space-y-4">
-      <h2 className="text-xl font-bold text-blue-400 drop-shadow-sm shadow-white">🛍 Подтверждение заказа</h2>
+      <h2 className="text-xl font-bold !text-blue-400 drop-shadow-sm shadow-white">🛍 Подтверждение заказа</h2>
 
-      <p className="text-blue-300">🔧 Это тестовая строка! Если ты её видишь — значит всё работает.</p>
+      <p className="!text-blue-300">🔧 Это тестовая строка! Если ты её видишь — значит всё работает.</p>
 
       <div className="relative w-full max-w-xs">
         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">👤</span>
@@ -73,7 +73,7 @@ const ConfirmPage = ({ cart, onBack }) => {
       </div>
 
       <div className="w-full max-w-xs">
-        <h3 className="text-base font-semibold mt-4 mb-2 text-blue-400 drop-shadow-sm shadow-white">Способ связи с вами:</h3>
+        <h3 className="text-base font-semibold mt-4 mb-2 !text-blue-400 drop-shadow-sm shadow-white">Способ связи с вами:</h3>
         <div className="flex bg-[#222] rounded overflow-hidden text-sm font-medium">
           <button
             className={`px-4 py-2 w-1/2 ${method === "whatsapp" ? 'bg-green-600 text-white' : 'text-gray-300'}`}
