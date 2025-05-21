@@ -103,24 +103,26 @@ ${cart
 
       {orderId && (
         <div className="mt-6 text-green-400 font-semibold text-center text-base px-2">
-          📦 Ваш заказ <span className="text-white">№{orderId}</span> успешно отправлен!<br />
-          <span className="text-gray-300">Ожидайте сообщение от менеджера.</span>
+          📦 Ваш заказ <span className="text-gray-100">№{orderId}</span> успешно отправлен!<br />
+          <span className="text-gray-200">Ожидайте сообщение от менеджера.</span>
         </div>
       )}
 
-      <button
-        onClick={handleSubmit}
-        className="mt-4 px-6 py-2 bg-green-600 rounded text-white font-bold transition-transform hover:scale-105 active:scale-95"
-      >
-        ✅ Отправить заявку
-      </button>
+      <div className="flex flex-col items-center gap-2 pt-2">
+        <button
+          onClick={handleSubmit}
+          className="px-6 py-2 bg-green-600 rounded text-white font-bold transition-transform hover:scale-105 active:scale-95"
+        >
+          ✅ Отправить заявку
+        </button>
 
-      <button
-        onClick={onBack}
-        className="mt-2 px-4 py-1 bg-gray-700 rounded text-white"
-      >
-        ← Назад
-      </button>
+        <button
+          onClick={onBack}
+          className="px-4 py-1 bg-gray-700 rounded text-white"
+        >
+          ← Назад
+        </button>
+      </div>
     </div>
   );
 };
